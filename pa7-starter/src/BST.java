@@ -113,9 +113,40 @@ public class BST<K extends Comparable<? super K>, V> implements DefaultMap<K, V>
     }
 
 
+	private Node<K,V> moveAndDelete(Node<K,V> nodeToCompare, K key, V value) { 
+
+		// empty tree
+		if(nodeToCompare == null) {
+			return null;
+		}
+
+
+		// moving through the tree by comparison
+        int comp = comparator.compare(nodeToCompare.key, key);
+
+        if (comp < 0) {
+            nodeToCompare.right = this.moveAndDelete(nodeToCompare.right, key, value);
+
+        } else if (comp > 0) {
+            nodeToCompare.left = this.moveAndDelete(nodeToCompare.left, key, value);
+        } 
+
+		// key is the same? WE'RE HERE
+		else {
+
+		}
+
+
+
+	}
+
+
     @Override
     public boolean remove(K key) throws IllegalArgumentException {
         // TODO Auto-generated method stub
+
+
+
         return false;
     }
 
