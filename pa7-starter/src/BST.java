@@ -115,7 +115,7 @@ public class BST<K extends Comparable<? super K>, V> implements DefaultMap<K, V>
 
 	private Node<K,V> moveAndDelete(Node<K,V> nodeToCompare, K key, V value) { 
 
-		// empty tree
+		// empty trees
 		if(nodeToCompare == null) {
 			return null;
 		}
