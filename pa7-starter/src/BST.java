@@ -49,7 +49,7 @@ public class BST<K extends Comparable<? super K>, V> implements DefaultMap<K, V>
         }
 
         // otherwise, add the new node and compare using the comparator
-        int comp = comparator.compare(nodeToCompare.key, key);
+        int comp = key.compareTo(nodeToCompare.key);
 
         if (comp < 0) {
             nodeToCompare.right = this.compareAdd(nodeToCompare.right, key, value);
@@ -89,8 +89,8 @@ public class BST<K extends Comparable<? super K>, V> implements DefaultMap<K, V>
         boolean leftReplace = false;
         boolean rightReplace = false;
         if (root != null) {
-            int compKey = comparator.compare(root.key, key);
-            if(compKey == 0) {
+            boolean compKey = key.equals(root.key);
+            if(compKey) {
                 root.value = value;
                 return true;
             }
@@ -122,7 +122,8 @@ public class BST<K extends Comparable<? super K>, V> implements DefaultMap<K, V>
 
 
 		// moving through the tree by comparison
-        int comp = comparator.compare(nodeToCompare.key, key);
+        // int comp = comparator.compare(nodeToCompare.key, key);
+        int comp = key.compareTo(nodeToCompare.key);
 
         if (comp < 0) {
             nodeToCompare.right = this.moveAndDelete(nodeToCompare.right, key, value);
