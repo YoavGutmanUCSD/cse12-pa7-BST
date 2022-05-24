@@ -111,15 +111,6 @@ public class BST<K extends Comparable<? super K>, V> implements DefaultMap<K, V>
         return movingInTreeAndReplace(this.root, key, newValue);
         // good ol helper method that moves through the tree and replaces
     }
-    private Node get(Node start, K key){
-        if(key == null) { return null; }
-        if(start.getKey().equals(key)) { return start; }
-        Node leftMost = get(start.left, key);
-        Node rightMost = get(start.left, key);
-        if(leftMost != null) { return leftMost; }
-        if(rightMost != null) { return rightMost; }
-        return null;
-    }
 
 
     @Override
@@ -134,10 +125,23 @@ public class BST<K extends Comparable<? super K>, V> implements DefaultMap<K, V>
 
     }
 
+    private Node get(Node start, K key){
+        if(key == null) { return null; }
+        if(start.getKey().equals(key)) { return start; }
+        Node leftMost = get(start.left, key);
+        Node rightMost = get(start.left, key);
+        if(leftMost != null) { return leftMost; }
+        if(rightMost != null) { return rightMost; }
+        return null;
+    }
+
     @Override
     public V get(K key) throws IllegalArgumentException {
-        // TODO Auto-generated method stub
-        return null;
+        Node wantedNode = get(this.root, key);
+        if (wantedNode == null){
+            return null;
+        }
+        return (V) wantedNode.getValue();
     }
 
     @Override
