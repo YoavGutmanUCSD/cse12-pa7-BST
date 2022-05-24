@@ -22,6 +22,7 @@ public class BST<K extends Comparable<? super K>, V> implements DefaultMap<K, V>
 
     // something to compare objects when needed
     Comparator<K> comparator;
+	Comparator<V> comparatorValues;
 
     // size of tree
     int size = 0;
@@ -84,15 +85,18 @@ public class BST<K extends Comparable<? super K>, V> implements DefaultMap<K, V>
         return false;
     }
 
-    void movingInTreeAndReplace(Node root, K key, V value) {
+    private boolean movingInTreeAndReplace(Node<K,V> root, K key, V value) {
         if (root != null) {
             int compKey = comparator.compare(root.key, key);
-            int compValue = comparator.compare(root.value, key);
-
+			if(compKey == 0) {
+				root.value = value;
+				return true;
+			}
             movingInTreeAndReplace(root.left, key, value);
-            // System.out.println(root.key);
             movingInTreeAndReplace(root.right, key, value);
         }
+		return false;
+
     }
 
     // Time complexity: O(n)
@@ -102,6 +106,10 @@ public class BST<K extends Comparable<? super K>, V> implements DefaultMap<K, V>
         if (key == null) {
             throw new IllegalArgumentException("Key cannot be null.");
         }
+
+		return movingInTreeAndReplace(this.root, key, newValue);
+		// good ol helper method that moves through the tree and replaces
+
 
 
 
