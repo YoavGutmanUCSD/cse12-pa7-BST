@@ -108,17 +108,17 @@ public class BST<K extends Comparable<? super K>, V> implements DefaultMap<K, V>
         if (key == null) {
             throw new IllegalArgumentException("Key cannot be null.");
         }
-
-		return movingInTreeAndReplace(this.root, key, newValue);
-		// good ol helper method that moves through the tree and replaces
+        return movingInTreeAndReplace(this.root, key, newValue);
+        // good ol helper method that moves through the tree and replaces
     }
     private Node get(Node start, K key){
-        if(key == null) return null;
-        if(start.getKey().equals(key)) return start;
+        if(key == null) { return null; }
+        if(start.getKey().equals(key)) { return start; }
         Node leftMost = get(start.left, key);
         Node rightMost = get(start.left, key);
-        if(leftMost != null) return leftMost;
-        if(rightMost != null) return rightMost;
+        if(leftMost != null) { return leftMost; }
+        if(rightMost != null) { return rightMost; }
+        return null;
     }
 
 
