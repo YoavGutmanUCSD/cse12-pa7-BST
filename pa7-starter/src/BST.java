@@ -113,6 +113,18 @@ public class BST<K extends Comparable<? super K>, V> implements DefaultMap<K, V>
     }
 
 
+	// find the smallest key in the right (used in the next method)
+	private K smallestInTheRight(Node<K,V> rightTree) {
+		K compareSmallestKey = rightTree.key;
+		while (rightTree != null) {
+			compareSmallestKey = rightTree.left.key;
+			rightTree = rightTree.left;
+		}
+
+		return compareSmallestKey;
+	}
+
+	// moving through the tree and deleting values
 	private Node<K,V> moveAndDelete(Node<K,V> nodeToCompare, K key) { 
 
 		// empty trees
@@ -138,17 +150,24 @@ public class BST<K extends Comparable<? super K>, V> implements DefaultMap<K, V>
 			if(nodeToCompare.left == null) {return root.right;}
 
 			// you're not a leaf node? you have TWO children? that complicates things...
-			
+			// since your end is near you need a successor. 
+			// they're the smallest in the right tree (nodeToCompare.right)
+			Node<K,V> rightTree = nodeToCompare.right;
+			K newKey = smallestInTheRight(rightTree);
 
+			// changing its key to the smallest key
+			nodeToCompare.key = newKey;
 
-
+			// delete the previous stuff
+			nodeToCompare.right = moveAndDelete(nodeToCompare.right, nodeToCompare.key);
 		}
-
-
+		return nodeToCompare;
 
 	}
 
 
+	// O(n) Time complexity
+	// deletes the specified key
     @Override
     public boolean remove(K key) throws IllegalArgumentException {
 
@@ -160,6 +179,7 @@ public class BST<K extends Comparable<? super K>, V> implements DefaultMap<K, V>
 		}
 		return false;
     }
+	
 
     @Override
     public void set(K key, V value) throws IllegalArgumentException {
