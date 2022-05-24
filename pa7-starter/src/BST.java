@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Stack;
 
@@ -19,6 +20,12 @@ public class BST<K extends Comparable<? super K>, V> implements DefaultMap<K, V>
 	// root of tree
 	Node<K,V> root;
 
+	// something to compare objects when needed
+	Comparator<K> comparator;
+
+	// size of tree
+	int size = 0;
+
 	// Constructors
 	BST() {
 		this.root = null;
@@ -29,10 +36,50 @@ public class BST<K extends Comparable<? super K>, V> implements DefaultMap<K, V>
 	}
 
 
+
+	// Helper method to help the "put" function.. put
+	private Node<K,V> compareAdd(Node<K,V> nodeToCompare, K key, V value) {
+		
+		// make a nodeToCompare if it doesn't exist yet
+		if (nodeToCompare == null) {
+            nodeToCompare = new Node(key, value);
+			size++;
+            return nodeToCompare;
+        }
+
+		// otherwise, add the new node and compare using the comparator
+		int comp = comparator.compare(nodeToCompare.key, key);
+
+		if (comp < 0) {
+			nodeToCompare.right = this.compareAdd(nodeToCompare.right, key, value);
+
+		} else if (comp > 0) {
+			nodeToCompare.left = this.compareAdd(nodeToCompare.left, key, value);
+		
+		}
+
+		return nodeToCompare;
+	}
+
+
 	// Time complexity: O(n)
 	@Override
 	public boolean put(K key, V value) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
+
+		if (key == null) {
+			throw new IllegalArgumentException("Key cannot be null.");
+		}
+		if (value == null) 
+			throw new IllegalArgumentException("Value cannot be null.");
+
+		// calling a handy dandy compare function
+		Node<K,V> finalNode = compareAdd(this.root, key, value);
+
+		if(finalNode != root) {
+			this.root = finalNode;
+			return true;
+		}
+
 		return false;
 	}
 
