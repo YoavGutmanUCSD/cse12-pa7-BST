@@ -113,27 +113,34 @@ public class BST<K extends Comparable<? super K>, V> implements DefaultMap<K, V>
     }
 
 
-	private Node<K,V> moveAndDelete(Node<K,V> nodeToCompare, K key, V value) { 
+	private Node<K,V> moveAndDelete(Node<K,V> nodeToCompare, K key) { 
 
 		// empty trees
 		if(nodeToCompare == null) {
-			return null;
+			return nodeToCompare;
 		}
-
 
 		// moving through the tree by comparison
         // int comp = comparator.compare(nodeToCompare.key, key);
         int comp = key.compareTo(nodeToCompare.key);
 
         if (comp < 0) {
-            nodeToCompare.right = this.moveAndDelete(nodeToCompare.right, key, value);
+            nodeToCompare.right = this.moveAndDelete(nodeToCompare.right, key);
 
         } else if (comp > 0) {
-            nodeToCompare.left = this.moveAndDelete(nodeToCompare.left, key, value);
+            nodeToCompare.left = this.moveAndDelete(nodeToCompare.left, key);
         } 
 
-		// key is the same? WE'RE HERE
+		// key is the same? WE'RE HERE (time to delete)
 		else {
+			// so, are you a leaf node? you have a child? I don't care, say goodbye!
+			if(nodeToCompare.right == null) {return root.left;}
+			if(nodeToCompare.left == null) {return root.right;}
+
+			// you're not a leaf node? you have TWO children? that complicates things...
+			
+
+
 
 		}
 
@@ -144,11 +151,14 @@ public class BST<K extends Comparable<? super K>, V> implements DefaultMap<K, V>
 
     @Override
     public boolean remove(K key) throws IllegalArgumentException {
-        // TODO Auto-generated method stub
 
+		if(this.root != moveAndDelete(this.root, key)) {
 
+			this.root = moveAndDelete(this.root, key);
 
-        return false;
+			return true;
+		}
+		return false;
     }
 
     @Override
@@ -183,8 +193,7 @@ public class BST<K extends Comparable<? super K>, V> implements DefaultMap<K, V>
 
     @Override
     public boolean isEmpty() {
-        // TODO Auto-generated method stub
-        return false;
+        return size == 0;
     }
 
     @Override

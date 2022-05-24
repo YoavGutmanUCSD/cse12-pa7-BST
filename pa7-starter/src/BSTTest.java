@@ -33,6 +33,6 @@ public class BSTTest {
     public void testReplace_oneVal(){
         testMap.put(TEST_KEY, TEST_VAL);
         testMap.replace(TEST_KEY, TEST_VAL + "1234QWERASDFZXCV");
-        assertEquals(testMap.get("e"), 500);
+        assertEquals(testMap.get(TEST_KEY), TEST_VAL + "1234QWERASDFZXCV");
     }
 }
