@@ -86,7 +86,8 @@ public class BST<K extends Comparable<? super K>, V> implements DefaultMap<K, V>
 
 	void movingInTreeAndReplace(Node root, K key, V value) {
 		if (root != null) {
-			
+			int compKey = comparator.compare(root.key, key);
+			int compValue = comparator.compare(root.value, key);
 
             movingInTreeAndReplace(root.left, key, value);
             // System.out.println(root.key);
