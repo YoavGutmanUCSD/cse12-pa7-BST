@@ -84,9 +84,27 @@ public class BST<K extends Comparable<? super K>, V> implements DefaultMap<K, V>
 		return false;
 	}
 
+	void movingInTreeAndReplace(Node root, K key, V value) {
+		if (root != null) {
+			
+
+            movingInTreeAndReplace(root.left, key, value);
+            // System.out.println(root.key);
+            movingInTreeAndReplace(root.right, key, value);
+        }
+	}
+
+	// Time complexity: O(n)
 	@Override
 	public boolean replace(K key, V newValue) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
+		if (key == null) {
+			throw new IllegalArgumentException("Key cannot be null.");
+		}
+
+
+
+
 		return false;
 	}
 
