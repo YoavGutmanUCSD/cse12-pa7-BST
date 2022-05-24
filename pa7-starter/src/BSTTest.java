@@ -26,6 +26,7 @@ public class BSTTest {
 
 	@Test
 	public void puttingTest() {
-		
+		testMap.put(TEST_KEY, TEST_VAL);
+		assertEquals(testMap.size(), 1);
 	}
 }

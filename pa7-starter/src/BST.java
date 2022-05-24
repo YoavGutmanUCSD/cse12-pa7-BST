@@ -55,7 +55,8 @@ public class BST<K extends Comparable<? super K>, V> implements DefaultMap<K, V>
 
 		} else if (comp > 0) {
 			nodeToCompare.left = this.compareAdd(nodeToCompare.left, key, value);
-		
+		} else {
+			return this.root;
 		}
 
 		return nodeToCompare;
@@ -69,13 +70,13 @@ public class BST<K extends Comparable<? super K>, V> implements DefaultMap<K, V>
 		if (key == null) {
 			throw new IllegalArgumentException("Key cannot be null.");
 		}
-		if (value == null) 
-			throw new IllegalArgumentException("Value cannot be null.");
+		// if (value == null) 
+		// 	throw new IllegalArgumentException("Value cannot be null.");
 
 		// calling a handy dandy compare function
 		Node<K,V> finalNode = compareAdd(this.root, key, value);
 
-		if(finalNode != root) {
+		if(finalNode != this.root) {
 			this.root = finalNode;
 			return true;
 		}
@@ -109,8 +110,7 @@ public class BST<K extends Comparable<? super K>, V> implements DefaultMap<K, V>
 
 	@Override
 	public int size() {
-		// TODO Auto-generated method stub
-		return 0;
+		return size;
 	}
 
 	@Override
