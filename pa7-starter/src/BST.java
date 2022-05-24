@@ -16,6 +16,20 @@ public class BST<K extends Comparable<? super K>, V> implements DefaultMap<K, V>
 	 * or any other implementation of a binary search tree
 	 */
 
+	// root of tree
+	Node<K,V> root;
+
+	// Constructors
+	BST() {
+		this.root = null;
+	}
+
+	BST(Node<K,V> root) { 
+		this.root = root; 
+	}
+
+
+	// Time complexity: O(n)
 	@Override
 	public boolean put(K key, V value) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
@@ -75,26 +89,29 @@ public class BST<K extends Comparable<? super K>, V> implements DefaultMap<K, V>
 	
 	private static class Node<K extends Comparable<? super K>, V> 
 								implements DefaultMap.Entry<K, V> {
-		/* 
-		 * TODO: Add instance variables
-		 */
+		K key;
+		V value;
+		Node<K,V> left = null;
+		Node<K,V> right = null;
+
+		private Node(K key, V value) {
+			this.key = key;
+			this.value = value;
+		}
 
 		@Override
 		public K getKey() {
-			// TODO Auto-generated method stub
-			return null;
+			return key;
 		}
 
 		@Override
 		public V getValue() {
-			// TODO Auto-generated method stub
-			return null;
+			return value;
 		}
 
 		@Override
 		public void setValue(V value) {
-			// TODO Auto-generated method stub
-			
+			this.value = value;
 		}
 		
 		
