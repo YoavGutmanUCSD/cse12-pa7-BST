@@ -102,11 +102,15 @@ public class BST<K extends Comparable<? super K>, V> implements DefaultMap<K, V>
         if (key == null) {
             throw new IllegalArgumentException("Key cannot be null.");
         }
-
-
-
-
-        return false;
+        Node nodeToEdit = get(root, key);
+        if(nodeToEdit == null) {
+            return false;
+        }
+        else {
+            nodeToEdit.setValue(newValue);
+            return true;
+        }
+        // return false;
     }
     private Node get(Node start, K key){
         if(key == null) return null;
