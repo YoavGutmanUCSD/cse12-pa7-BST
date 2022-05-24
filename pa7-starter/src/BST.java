@@ -108,6 +108,14 @@ public class BST<K extends Comparable<? super K>, V> implements DefaultMap<K, V>
 
         return false;
     }
+    private Node get(Node start, K key){
+        if(key == null) return null;
+        if(start.getKey().equals(key)) return start;
+        Node leftMost = get(start.left, key);
+        Node rightMost = get(start.left, key);
+        if(leftMost != null) return leftMost;
+        if(rightMost != null) return rightMost;
+    }
 
     @Override
     public boolean remove(K key) throws IllegalArgumentException {
