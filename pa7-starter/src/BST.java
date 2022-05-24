@@ -22,6 +22,7 @@ public class BST<K extends Comparable<? super K>, V> implements DefaultMap<K, V>
 
     // something to compare objects when needed
     Comparator<K> comparator;
+	Comparator<V> comparatorValues;
 
     // size of tree
     int size = 0;
@@ -84,15 +85,20 @@ public class BST<K extends Comparable<? super K>, V> implements DefaultMap<K, V>
         return false;
     }
 
-    void movingInTreeAndReplace(Node root, K key, V value) {
+    private boolean movingInTreeAndReplace(Node<K,V> root, K key, V value) {
+        boolean leftReplace;
+        boolean rightReplace;
         if (root != null) {
             int compKey = comparator.compare(root.key, key);
-            int compValue = comparator.compare(root.value, key);
-
-            movingInTreeAndReplace(root.left, key, value);
-            // System.out.println(root.key);
-            movingInTreeAndReplace(root.right, key, value);
+            if(compKey == 0) {
+                root.value = value;
+                return true;
+            }
+            leftReplace = movingInTreeAndReplace(root.left, key, value);
+            rightReplace = movingInTreeAndReplace(root.right, key, value);
         }
+        return leftReplace || rightReplace;
+
     }
 
     // Time complexity: O(n)
@@ -102,15 +108,9 @@ public class BST<K extends Comparable<? super K>, V> implements DefaultMap<K, V>
         if (key == null) {
             throw new IllegalArgumentException("Key cannot be null.");
         }
-        Node nodeToEdit = get(root, key);
-        if(nodeToEdit == null) {
-            return false;
-        }
-        else {
-            nodeToEdit.setValue(newValue);
-            return true;
-        }
-        // return false;
+
+		return movingInTreeAndReplace(this.root, key, newValue);
+		// good ol helper method that moves through the tree and replaces
     }
     private Node get(Node start, K key){
         if(key == null) return null;
@@ -120,6 +120,7 @@ public class BST<K extends Comparable<? super K>, V> implements DefaultMap<K, V>
         if(leftMost != null) return leftMost;
         if(rightMost != null) return rightMost;
     }
+
 
     @Override
     public boolean remove(K key) throws IllegalArgumentException {
