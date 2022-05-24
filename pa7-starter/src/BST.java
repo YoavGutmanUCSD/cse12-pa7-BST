@@ -111,11 +111,16 @@ public class BST<K extends Comparable<? super K>, V> implements DefaultMap<K, V>
 		// good ol helper method that moves through the tree and replaces
     }
 
+
+
+
+	// Time complexity: O(n)
     @Override
     public boolean remove(K key) throws IllegalArgumentException {
         // TODO Auto-generated method stub
         return false;
     }
+
 
     @Override
     public void set(K key, V value) throws IllegalArgumentException {
