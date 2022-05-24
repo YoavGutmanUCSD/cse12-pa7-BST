@@ -109,12 +109,6 @@ public class BST<K extends Comparable<? super K>, V> implements DefaultMap<K, V>
 
 		return movingInTreeAndReplace(this.root, key, newValue);
 		// good ol helper method that moves through the tree and replaces
-
-
-
-
-
-        return false;
     }
 
     @Override
