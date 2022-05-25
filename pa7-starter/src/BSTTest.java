@@ -50,4 +50,13 @@ public class BSTTest {
         testMap.remove(TEST_KEY);
         assertNull(testMap.get(TEST_KEY));
     }
+    @Test
+    public void testRemove_fourVal(){
+        testMap.put(TEST_KEY, TEST_VAL);
+        testMap.put(TEST_KEY + "a", TEST_VAL);
+        testMap.put(TEST_KEY + "b", TEST_VAL);
+        testMap.put(TEST_KEY + "c", TEST_VAL);
+        testMap.remove(TEST_KEY);
+        assertNull(testMap.get(TEST_KEY));
+    }
 }
