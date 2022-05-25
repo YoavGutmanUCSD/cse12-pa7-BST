@@ -168,19 +168,19 @@ public class FileSystem {
     
     // TODO
     public FileSystem filter(String wildCard) {
-
+        return null;
     }
     
     
     // TODO
     public List<String> outputNameTree(){
-
+        return null;
     }
     
     
     // TODO
     public List<String> outputDateTree(){
-
+        return null;
     }
     
 
