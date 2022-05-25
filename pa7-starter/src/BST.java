@@ -22,7 +22,7 @@ public class BST<K extends Comparable<? super K>, V> implements DefaultMap<K, V>
 
     // something to compare objects when needed
     Comparator<K> comparator;
-	Comparator<V> comparatorValues;
+    Comparator<V> comparatorValues;
 
     // size of tree
     int size = 0;
@@ -112,26 +112,26 @@ public class BST<K extends Comparable<? super K>, V> implements DefaultMap<K, V>
     }
 
 
-	// find the smallest key in the right (used in the next method)
-	private K smallestInTheRight(Node<K,V> rightTree) {
-		K compareSmallestKey = rightTree.key;
-		while (rightTree != null) {
-			compareSmallestKey = rightTree.left.key;
-			rightTree = rightTree.left;
-		}
+    // find the smallest key in the right (used in the next method)
+    private K smallestInTheRight(Node<K,V> rightTree) {
+        K compareSmallestKey = rightTree.key;
+        while (rightTree != null) {
+            compareSmallestKey = rightTree.left.key;
+            rightTree = rightTree.left;
+        }
 
-		return compareSmallestKey;
-	}
+        return compareSmallestKey;
+    }
 
-	// moving through the tree and deleting values
-	private Node<K,V> moveAndDelete(Node<K,V> nodeToCompare, K key) { 
+    // moving through the tree and deleting values
+    private Node<K,V> moveAndDelete(Node<K,V> nodeToCompare, K key) { 
 
-		// empty trees
-		if(nodeToCompare == null) {
-			return nodeToCompare;
-		}
+        // empty trees
+        if(nodeToCompare == null) {
+            return nodeToCompare;
+        }
 
-		// moving through the tree by comparison
+        // moving through the tree by comparison
         // int comp = comparator.compare(nodeToCompare.key, key);
         int comp = key.compareTo(nodeToCompare.key);
 
@@ -142,43 +142,43 @@ public class BST<K extends Comparable<? super K>, V> implements DefaultMap<K, V>
             nodeToCompare.left = this.moveAndDelete(nodeToCompare.left, key);
         } 
 
-		// key is the same? WE'RE HERE (time to delete)
-		else {
-			// so, are you a leaf node? you have a child? I don't care, say goodbye!
-			if(nodeToCompare.right == null) {return root.left;}
-			if(nodeToCompare.left == null) {return root.right;}
+        // key is the same? WE'RE HERE (time to delete)
+        else {
+            // so, are you a leaf node? you have a child? I don't care, say goodbye!
+            if(nodeToCompare.right == null) {return root.left;}
+            if(nodeToCompare.left == null) {return root.right;}
 
-			// you're not a leaf node? you have TWO children? that complicates things...
-			// since your end is near you need a successor. 
-			// they're the smallest in the right tree (nodeToCompare.right)
-			Node<K,V> rightTree = nodeToCompare.right;
-			K newKey = smallestInTheRight(rightTree);
+            // you're not a leaf node? you have TWO children? that complicates things...
+            // since your end is near you need a successor. 
+            // they're the smallest in the right tree (nodeToCompare.right)
+            Node<K,V> rightTree = nodeToCompare.right;
+            K newKey = smallestInTheRight(rightTree);
 
-			// changing its key to the smallest key
-			nodeToCompare.key = newKey;
+            // changing its key to the smallest key
+            nodeToCompare.key = newKey;
 
-			// delete the previous stuff
-			nodeToCompare.right = moveAndDelete(nodeToCompare.right, nodeToCompare.key);
-		}
-		return nodeToCompare;
+            // delete the previous stuff
+            nodeToCompare.right = moveAndDelete(nodeToCompare.right, nodeToCompare.key);
+        }
+        return nodeToCompare;
 
-	}
+    }
 
 
-	// O(n) Time complexity
-	// deletes the specified key
+    // O(n) Time complexity
+    // deletes the specified key
     @Override
     public boolean remove(K key) throws IllegalArgumentException {
 
-		if(this.root != moveAndDelete(this.root, key)) {
+        if(this.root != moveAndDelete(this.root, key)) {
 
-			this.root = moveAndDelete(this.root, key);
+            this.root = moveAndDelete(this.root, key);
 
-			return true;
-		}
-		return false;
+            return true;
+        }
+        return false;
     }
-	
+
 
     // Helper method to help the "set" function.. set
     private Node<K,V> compareAddDupsToo(Node<K,V> nodeToCompare, K key, V value) {
@@ -200,7 +200,7 @@ public class BST<K extends Comparable<? super K>, V> implements DefaultMap<K, V>
             nodeToCompare.left = this.compareAdd(nodeToCompare.left, key, value);
         } else {
             nodeToCompare.value = value;
-			return nodeToCompare;
+            return nodeToCompare;
         }
 
         return nodeToCompare;
@@ -208,7 +208,7 @@ public class BST<K extends Comparable<? super K>, V> implements DefaultMap<K, V>
 
     @Override
     public void set(K key, V value) throws IllegalArgumentException {
-		if (key == null) {
+        if (key == null) {
             throw new IllegalArgumentException("Key cannot be null.");
         }
         // if (value == null) 
@@ -235,9 +235,9 @@ public class BST<K extends Comparable<? super K>, V> implements DefaultMap<K, V>
 
     @Override
     public V get(K key) throws IllegalArgumentException {
-		if(key==null) {
-			throw new IllegalArgumentException("Key cannot be null.");
-		}
+        if(key==null) {
+            throw new IllegalArgumentException("Key cannot be null.");
+        }
 
         Node wantedNode = get(this.root, key);
         if (wantedNode == null){
