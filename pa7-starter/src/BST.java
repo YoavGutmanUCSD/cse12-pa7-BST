@@ -67,7 +67,6 @@ public class BST<K extends Comparable<? super K>, V> implements DefaultMap<K, V>
     // Time complexity: O(n)
     @Override
     public boolean put(K key, V value) throws IllegalArgumentException {
-
         if (key == null) {
             throw new IllegalArgumentException("Key cannot be null.");
         }
@@ -181,9 +180,46 @@ public class BST<K extends Comparable<? super K>, V> implements DefaultMap<K, V>
     }
 	
 
+    // Helper method to help the "set" function.. set
+    private Node<K,V> compareAddDupsToo(Node<K,V> nodeToCompare, K key, V value) {
+
+        // make a nodeToCompare if it doesn't exist yet
+        if (nodeToCompare == null) {
+            nodeToCompare = new Node(key, value);
+            size++;
+            return nodeToCompare;
+        }
+
+        // otherwise, add the new node and compare using the comparator
+        int comp = key.compareTo(nodeToCompare.key);
+
+        if (comp < 0) {
+            nodeToCompare.right = this.compareAdd(nodeToCompare.right, key, value);
+
+        } else if (comp > 0) {
+            nodeToCompare.left = this.compareAdd(nodeToCompare.left, key, value);
+        } else {
+            nodeToCompare.value = value;
+			return nodeToCompare;
+        }
+
+        return nodeToCompare;
+    }
+
     @Override
     public void set(K key, V value) throws IllegalArgumentException {
-        // TODO Auto-generated method stub
+		if (key == null) {
+            throw new IllegalArgumentException("Key cannot be null.");
+        }
+        // if (value == null) 
+        // 	throw new IllegalArgumentException("Value cannot be null.");
+
+        // calling a handy dandy compare function
+        Node<K,V> finalNode = compareAddDupsToo(this.root, key, value);
+
+        if(finalNode != this.root) {
+            this.root = finalNode;
+        }
 
     }
 
@@ -199,6 +235,10 @@ public class BST<K extends Comparable<? super K>, V> implements DefaultMap<K, V>
 
     @Override
     public V get(K key) throws IllegalArgumentException {
+		if(key==null) {
+			throw new IllegalArgumentException("Key cannot be null.");
+		}
+
         Node wantedNode = get(this.root, key);
         if (wantedNode == null){
             return null;
