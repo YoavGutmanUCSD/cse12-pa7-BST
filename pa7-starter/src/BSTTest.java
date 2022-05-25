@@ -50,13 +50,20 @@ public class BSTTest {
         testMap.remove(TEST_KEY);
         assertNull(testMap.get(TEST_KEY));
     }
-    @Test
-    public void testRemove_fourVal(){
+
+
+	@Test
+    public void testKeyList(){
         testMap.put(TEST_KEY, TEST_VAL);
-        testMap.put(TEST_KEY + "a", TEST_VAL);
-        testMap.put(TEST_KEY + "b", TEST_VAL);
-        testMap.put(TEST_KEY + "c", TEST_VAL);
-        testMap.remove(TEST_KEY);
-        assertNull(testMap.get(TEST_KEY));
-    }
+		ArrayList<String> keyList1 = new ArrayList();
+		keyList1.add(TEST_KEY);
+
+        ArrayList<String> keyList = new ArrayList(testMap.keys());
+
+		for (int i =0; i<keyList.size(); i++) {
+			System.out.print(keyList.get(i));
+		}
+
+		assertArrayEquals(keyList.toArray(), keyList1.toArray());
+	}
 }
