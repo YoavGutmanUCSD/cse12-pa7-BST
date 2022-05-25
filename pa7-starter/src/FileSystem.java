@@ -127,10 +127,13 @@ public class FileSystem {
             return 2;
         }
         FileData fileInSystem = nameTree.get(name);
-        if(name.equals(fileInSystem.name)){ // if naem is not the same, add it no matter what
+        if(fileInSystem == null){
+            return 2;
+        }
+        if(!name.equals(fileInSystem.name)){ // if naem is not the same, add it no matter what
             return 0;
         }
-        if(date.equals(fileInSystem.lastModifiedDate)){
+        if(!date.equals(fileInSystem.lastModifiedDate)){
             return 2;
         }
         else {
