@@ -269,11 +269,9 @@ public class BST<K extends Comparable<? super K>, V> implements DefaultMap<K, V>
     // You must do inorder traversal of the tree
     @Override
     public List<K> keys() {
-		if (root != null) {
-            keys(root.left);
-            System.out.print(root.key + " ");
-            keys(root.right);
-        }
+		ArrayList<K> keyList = new ArrayList();
+
+		return null;
     }
 
     private static class Node<K extends Comparable<? super K>, V> 
