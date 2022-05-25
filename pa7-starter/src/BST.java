@@ -117,8 +117,11 @@ public class BST<K extends Comparable<? super K>, V> implements DefaultMap<K, V>
 
     // find the smallest key in the right (used in the next method)
     private K smallestInTheRight(Node<K,V> rightTree) {
+		if (rightTree == null) {
+			return null;
+		}
         K compareSmallestKey = rightTree.key;
-        while (rightTree != null) {
+        while (rightTree.left != null) {
             compareSmallestKey = rightTree.left.key;
             rightTree = rightTree.left;
         }
