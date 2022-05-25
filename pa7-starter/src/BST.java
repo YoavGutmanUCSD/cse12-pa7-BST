@@ -175,6 +175,10 @@ public class BST<K extends Comparable<? super K>, V> implements DefaultMap<K, V>
     // deletes the specified key
     @Override
     public boolean remove(K key) throws IllegalArgumentException {
+		if(key==null) {
+			throw new IllegalArgumentException("Key cannot be null.");
+		}
+
 
         if(this.root != moveAndDelete(this.root, key)) {
 

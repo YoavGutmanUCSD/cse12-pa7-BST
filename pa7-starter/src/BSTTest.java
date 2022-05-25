@@ -55,14 +55,14 @@ public class BSTTest {
 	@Test
     public void testKeyList(){
         testMap.put(TEST_KEY, TEST_VAL);
+		testMap.put(TEST_KEY + "a", TEST_VAL);
 		ArrayList<String> keyList1 = new ArrayList();
 		keyList1.add(TEST_KEY);
+		keyList1.add(TEST_KEY + "a");
 
         ArrayList<String> keyList = new ArrayList(testMap.keys());
 
-		for (int i =0; i<keyList.size(); i++) {
-			System.out.print(keyList.get(i));
-		}
+		System.out.println(testMap.keys());
 
 		assertArrayEquals(keyList.toArray(), keyList1.toArray());
 	}
@@ -85,28 +85,19 @@ public class BSTTest {
         testMap.put(70, 3);
         testMap.put(60, 3);
         testMap.put(80, 3);
+
  
-        System.out.println(
-            "Inorder traversal of the given testMap");
-        //testMap.keys();
- 
-        System.out.println("\nDelete 20");
+        System.out.println("\n20");
         testMap.remove(20);
-        System.out.println(
-            "Inorder traversal of the modified testMap");
-        //testMap.keys();
+		System.out.println(testMap.keys());
  
-        System.out.println("\nDelete 30");
+        System.out.println("\n30");
         testMap.remove(30);
-        System.out.println(
-            "Inorder traversal of the modified testMap");
-        //testMap.keys();
+        //System.out.println(testMap.keys());
  
-        System.out.println("\nDelete 50");
+        System.out.println("\n50");
         testMap.remove(50);
-        System.out.println(
-            "Inorder traversal of the modified testMap");
-        //testMap.keys();
+        //System.out.println(testMap.keys());
     }
 
 }
