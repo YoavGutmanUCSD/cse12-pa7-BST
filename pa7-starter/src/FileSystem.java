@@ -228,7 +228,20 @@ public class FileSystem {
 
     // TODO
     public List<String> outputDateTree(){
-        return null;
+        List<String> returnable = new ArrayList<String>();
+        List<String> allDates = dateTree.keys();
+        for(int i = 0; i < allDates.size(); i++){
+            String key = allDates.get(i);
+            ArrayList<FileData> allFiles = dateTree.get(key);
+            for(int j = 0; j < allFiles.size(); j++){
+                String entry = genEntry(key, allFiles.get(i));
+                returnable.add(entry);
+            }
+        }
+        return returnable;
+    }
+    private String genEntry(String key, FileData file){
+        return String.format("%s: %s", key, file.toString());
     }
 
 
