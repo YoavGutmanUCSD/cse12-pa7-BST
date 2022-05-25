@@ -17,7 +17,7 @@ public class FileSystemTest {
         fileSys.add("break_your_pc.sh", "/root", "2022-05-24");
     }
     @Test
-    public void testAddCorrectFiles(){
+    public void testAddFilesSize(){
         fileSys.add(".secrets-upon-secrets", "/home", "2022-04-20");
         fileSys.add("NuOrder Shopping List", "/home", "2022-04-20");
         fileSys.add("break_your_pc.sh", "/root", "2022-05-24");
