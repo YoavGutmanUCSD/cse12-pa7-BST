@@ -65,7 +65,5 @@ public class BSTTest {
 		}
 
 		assertArrayEquals(keyList.toArray(), keyList1.toArray());
-
-
-    }
+	}
 }

@@ -34,17 +34,6 @@ public class FileSystem {
                 String fileDir = data[1];
                 String fileDate = data[2];
                 add(fileName, fileDir, fileDate); // make this work when you can 
-                // FileData fileOnLine = new FileData(fileName, fileDir, fileDate);
-                // nameTree.put(fileName, fileOnLine);
-                // ArrayList<FileData> dateList = dateTree.get(fileDate);
-                // if(dateList == null){
-                //     dateList = new ArrayList<FileData>();
-                //     dateList.add(fileOnLine);
-                //     dateTree.put(fileName, dateList);
-                // }
-                // else {
-                //     dateList.add(fileOnLine);
-                // }
             }
             sc.close();
         } catch (FileNotFoundException e) {
@@ -53,18 +42,38 @@ public class FileSystem {
     }
 
 
-    // TODO
+    // TODO test
     public void add(String name, String dir, String date) {
+        int action = decideAction(name, dir, date);
         FileData file = new FileData(name, dir, date);
-        nameTree.put(name, file);
-        ArrayList<FileData> dateList = dateTree.get(date);
-        if(dateList == null){
-            dateList = new ArrayList<FileData>();
-            dateList.add(file);
-            dateTree.put(name, dateList);
+        addNameMap(file, action);
+        addDateMap(file, action);
+    }
+    private void addNameMap(FileData file, int action){
+        switch(action) {
+            case 2:
+                break;
+            case 1:
+                nameTree.replace(file.name, file);
+            case 0:
+                nameTree.put(file.name, file);
         }
-        else {
-            dateList.add(file);
+    }
+    private void addDateMap(FileData file, int action){
+        ArrayList<FileData> dateList = dateTree.get(file.lastModifiedDate);
+        switch(action) {
+            case 2:
+                break;
+            case 1:
+                for(int i = 0; i < dateList.size(); i++){
+                    if(dateList.get(i).name.equals(file.name)){
+                        dateList.set(i, file);
+                    }
+                }
+                break;
+            case 0:
+                dateList.add(file);
+                break;
         }
     }
     private int decideAction(String name, String dir, String date){
