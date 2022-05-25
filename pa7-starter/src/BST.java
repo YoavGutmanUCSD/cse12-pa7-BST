@@ -258,8 +258,10 @@ public class BST<K extends Comparable<? super K>, V> implements DefaultMap<K, V>
 
     @Override
     public boolean containsKey(K key) throws IllegalArgumentException {
-        // TODO Auto-generated method stub
-        return false;
+        if(get(key) == null) {
+			return false;
+		}
+		return true;
     }
 
     // Keys must be in ascending sorted order
@@ -267,8 +269,9 @@ public class BST<K extends Comparable<? super K>, V> implements DefaultMap<K, V>
     // You must do inorder traversal of the tree
     @Override
     public List<K> keys() {
-        // TODO Auto-generated method stub
-        return null;
+		ArrayList<K> keyList = new ArrayList();
+
+		return null;
     }
 
     private static class Node<K extends Comparable<? super K>, V> 
