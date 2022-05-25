@@ -283,6 +283,7 @@ public class BST<K extends Comparable<? super K>, V> implements DefaultMap<K, V>
     // You must do inorder traversal of the tree
     @Override
     public List<K> keys() {
+		keyList.clear();
 		transverseRealms(root);
 		return keyList;
     }
