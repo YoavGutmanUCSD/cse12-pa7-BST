@@ -89,11 +89,28 @@ public class BSTTest {
  
         System.out.println("\n20");
         testMap.remove(20);
-		System.out.println(testMap.keys());
+		//System.out.println(testMap.keys());
  
         System.out.println("\n30");
         testMap.remove(30);
         //System.out.println(testMap.keys());
+ 
+        System.out.println("\n50");
+        testMap.remove(50);
+        //System.out.println(testMap.keys());
+    }
+
+	@Test
+    public void testRemove_withKeyList2(){
+        DefaultMap<Integer, Integer> testMap = new BST();
+		 // use this for basic tests
+		/* Let us create following BST
+              50
+           /     \
+          30      70
+         /  \    /  \
+        20   40  60   80 */
+        testMap.put(50, 3);
  
         System.out.println("\n50");
         testMap.remove(50);

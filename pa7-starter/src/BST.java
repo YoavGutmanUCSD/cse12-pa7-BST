@@ -151,8 +151,8 @@ public class BST<K extends Comparable<? super K>, V> implements DefaultMap<K, V>
         // key is the same? WE'RE HERE (time to delete)
         else {
             // so, are you a leaf node? you have a child? I don't care, say goodbye!
-            if(nodeToCompare.right == null) {return root.left;}
-            if(nodeToCompare.left == null) {return root.right;}
+            if(nodeToCompare.right == null) {return nodeToCompare.left;}
+            if(nodeToCompare.left == null) {return nodeToCompare.right;}
 
             // you're not a leaf node? you have TWO children? that complicates things...
             // since your end is near you need a successor. 
