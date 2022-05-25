@@ -66,4 +66,47 @@ public class BSTTest {
 
 		assertArrayEquals(keyList.toArray(), keyList1.toArray());
 	}
+
+
+	@Test
+    public void testRemove_withKeyList(){
+        DefaultMap<Integer, Integer> testMap = new BST();
+		 // use this for basic tests
+		/* Let us create following BST
+              50
+           /     \
+          30      70
+         /  \    /  \
+        20   40  60   80 */
+        testMap.put(50, 3);
+        testMap.put(30, 3);
+        testMap.put(20, 3);
+        testMap.put(40, 3);
+        testMap.put(70, 3);
+        testMap.put(60, 3);
+        testMap.put(80, 3);
+ 
+        System.out.println(
+            "Inorder traversal of the given testMap");
+        //testMap.keys();
+ 
+        System.out.println("\nDelete 20");
+        testMap.remove(20);
+        System.out.println(
+            "Inorder traversal of the modified testMap");
+        //testMap.keys();
+ 
+        System.out.println("\nDelete 30");
+        testMap.remove(30);
+        System.out.println(
+            "Inorder traversal of the modified testMap");
+        //testMap.keys();
+ 
+        System.out.println("\nDelete 50");
+        testMap.remove(50);
+        System.out.println(
+            "Inorder traversal of the modified testMap");
+        //testMap.keys();
+    }
+
 }
