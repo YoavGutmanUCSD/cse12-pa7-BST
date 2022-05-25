@@ -134,10 +134,10 @@ public class FileSystem {
             return 0;
         }
         if(!date.equals(fileInSystem.lastModifiedDate)){
-            return 2;
+            return 1;
         }
         else {
-            return 1;
+            return 2;
         }
     }
 
