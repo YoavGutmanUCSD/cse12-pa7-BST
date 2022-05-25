@@ -50,4 +50,22 @@ public class BSTTest {
         testMap.remove(TEST_KEY);
         assertNull(testMap.get(TEST_KEY));
     }
+
+
+	@Test
+    public void testKeyList(){
+        testMap.put(TEST_KEY, TEST_VAL);
+		ArrayList<String> keyList1 = new ArrayList();
+		keyList1.add(TEST_KEY);
+
+        ArrayList<String> keyList = new ArrayList(testMap.keys());
+
+		for (int i =0; i<keyList.size(); i++) {
+			System.out.print(keyList.get(i));
+		}
+
+		assertArrayEquals(keyList.toArray(), keyList1.toArray());
+
+
+    }
 }

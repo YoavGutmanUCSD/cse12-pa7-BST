@@ -27,6 +27,9 @@ public class BST<K extends Comparable<? super K>, V> implements DefaultMap<K, V>
     // size of tree
     int size = 0;
 
+	// list of keys
+	ArrayList<K> keyList = new ArrayList();
+
     // Constructors
     BST() {
         this.root = null;
@@ -264,14 +267,24 @@ public class BST<K extends Comparable<? super K>, V> implements DefaultMap<K, V>
 		return true;
     }
 
+	// all keys in the left and right
+	private void transverseRealms(Node<K,V> root) {
+		if (root != null) {
+			transverseRealms(root.right);
+            //transverseRealms(root.left);
+            keyList.add(root.key);
+            //transverseRealms(root.right);
+			transverseRealms(root.left);
+        }
+	}
+
     // Keys must be in ascending sorted order
     // You CANNOT use Collections.sort() or any other sorting implementations
     // You must do inorder traversal of the tree
     @Override
     public List<K> keys() {
-		ArrayList<K> keyList = new ArrayList();
-
-		return null;
+		transverseRealms(root);
+		return keyList;
     }
 
     private static class Node<K extends Comparable<? super K>, V> 
