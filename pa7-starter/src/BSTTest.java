@@ -35,4 +35,10 @@ public class BSTTest {
         testMap.replace(TEST_KEY, TEST_VAL + "1234QWERASDFZXCV");
         assertEquals(testMap.get(TEST_KEY), TEST_VAL + "1234QWERASDFZXCV");
     }
+    @Test
+    public void testRemove_oneVal(){
+        testMap.put(TEST_KEY, TEST_VAL);
+        testMap.remove(TEST_KEY);
+        assertNull(testMap.get(TEST_KEY));
+    }
 }
