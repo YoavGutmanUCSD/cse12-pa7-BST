@@ -11,7 +11,7 @@ public class FileSystem {
 
     BST<String, FileData> nameTree;
     BST<String, ArrayList<FileData>> dateTree;
-    
+
     // TODO
     public FileSystem() {
         this.nameTree = new BST<String, FileData>();
@@ -21,7 +21,7 @@ public class FileSystem {
 
     // TODO
     public FileSystem(String inputFile) {
-    	// Add your code here
+        // Add your code here
         this.nameTree = new BST<String, FileData>();
         this.dateTree = new BST<String, ArrayList<FileData>>();
         try {
@@ -41,65 +41,67 @@ public class FileSystem {
         }
     }
 
-    public void add(String fileName, String directory, String modifiedDate) {
-        // make the file..
-        ArrayList<FileData> someFiles = new ArrayList<FileData>();
-        FileData oneFile = new FileData(fileName, directory, modifiedDate);
-        someFiles.add(oneFile);
+    // public void add(String fileName, String directory, String modifiedDate) {
+    //     // make the file..
+    //     ArrayList<FileData> someFiles = new ArrayList<FileData>();
+    //     FileData oneFile = new FileData(fileName, directory, modifiedDate);
+    //     someFiles.add(oneFile);
 
-        boolean inNameTree = false;
-        boolean inDateTree = false;
+    //     boolean inNameTree = false;
+    //     boolean inDateTree = false;
 
-        boolean flag = false;
+    //     boolean flag = false;
 
-        // no duplicates!
+    //     // no duplicates!
 
-        // if it already exists, i need to add it to the alraedy existing key's values
-        if(nameTree.keys().contains(fileName)) {
-            ArrayList<FileData> moreFiles = nameTree.get(fileName);
-            for (int i = moreFiles.size()-1; i >= 0; i--) {
-                if(moreFiles.get(i).dir != oneFile.dir) {
-                    nameTree.get(fileName).add(oneFile);
-                }
-            }
-            flag = true;
-        } 
-        // otherwise, i'll just make a new key and add it
-        else {
-            inNameTree = nameTree.put(oneFile.name, someFiles);
-        }
+    //     // if it already exists, i need to add it to the alraedy existing key's values
+    //     if(nameTree.keys().contains(fileName)) {
+    //         ArrayList<FileData> moreFiles = nameTree.get(fileName);
+    //         for (int i = moreFiles.size()-1; i >= 0; i--) {
+    //             if(moreFiles.get(i).dir != oneFile.dir) {
+    //                 nameTree.get(fileName).add(oneFile);
+    //             }
+    //         }
+    //         flag = true;
+    //     } 
+    //     // otherwise, i'll just make a new key and add it
+    //     else {
+    //         inNameTree = nameTree.put(oneFile.name, someFiles);
+    //     }
 
 
-        // if it already exists, i need to add it to the alraedy existing key's values
-        if(dateTree.keys().contains(modifiedDate)) {
-            dateTree.get(modifiedDate).add(oneFile);
-            flag=true;
-        } 
-        // otherwise, i'll just make a new key and add it
-        else {
-            inDateTree = dateTree.put(oneFile.lastModifiedDate, someFiles);
-        }
+    //     // if it already exists, i need to add it to the alraedy existing key's values
+    //     if(dateTree.keys().contains(modifiedDate)) {
+    //         dateTree.get(modifiedDate).add(oneFile);
+    //         flag=true;
+    //     } 
+    //     // otherwise, i'll just make a new key and add it
+    //     else {
+    //         inDateTree = dateTree.put(oneFile.lastModifiedDate, someFiles);
+    //     }
 
-        // true if it didnt exist previously, false otherwise
-        // return inNameTree && inDateTree && !flag;
+    //     // true if it didnt exist previously, false otherwise
+    //     // return inNameTree && inDateTree && !flag;
 
-    }
+    // }
 
     // TODO test
-    // public void add(String name, String dir, String date) {
-    //     int action = decideAction(name, dir, date);
-    //     FileData file = new FileData(name, dir, date);
-    //     addNameMap(file, action);
-    //     addDateMap(file, action);
-    // }
+    public void add(String name, String dir, String date) {
+        int action = decideAction(name, dir, date);
+        FileData file = new FileData(name, dir, date);
+        addNameMap(file, action);
+        addDateMap(file, action);
+    }
     private void addNameMap(FileData file, int action){
         switch(action) {
             case 2:
                 break;
             case 1:
                 nameTree.replace(file.name, file);
+                break;
             case 0:
                 nameTree.put(file.name, file);
+                break;
         }
     }
     private void addDateMap(FileData file, int action){
@@ -166,7 +168,7 @@ public class FileSystem {
         }
         return newFileSystem;
     }
-    
+
     private int[] parseDate(String date){
         String[] dateSplit = date.split("/");
         int[] year_month_day = new int[3];
@@ -208,24 +210,24 @@ public class FileSystem {
         }
         return 30;
     }
-    
+
     // TODO
     public FileSystem filter(String wildCard) {
         return null;
     }
-    
-    
+
+
     // TODO
     public List<String> outputNameTree(){
         return null;
     }
-    
-    
+
+
     // TODO
     public List<String> outputDateTree(){
         return null;
     }
-    
+
 
 }
 
