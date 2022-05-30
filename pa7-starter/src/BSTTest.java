@@ -97,14 +97,14 @@ public class BSTTest {
  
         System.out.println("\n50");
         testMap.remove(50);
-        //System.out.println(testMap.keys());
+        System.out.println(testMap.keys());
     }
 
 	@Test
     public void testRemove_withKeyList2(){
         DefaultMap<Integer, Integer> testMap = new BST();
 		 // use this for basic tests
-		/* Let us create following BST
+		/* make
               50
            /     \
           30      70
@@ -115,6 +115,43 @@ public class BSTTest {
         System.out.println("\n50");
         testMap.remove(50);
         //System.out.println(testMap.keys());
+    }
+
+    @Test
+    public void testRemoveWithKeyList_sizeOneChild(){
+        DefaultMap<Integer, Integer> testMap = new BST();
+		 // use this for basic tests
+		/* make
+              50
+           /     \
+          30      70
+         /  \    /  \
+        20   40  60   80 */
+        testMap.put(50, 3);
+        testMap.put(30, 3);
+ 
+        System.out.println("\n50");
+        testMap.remove(50);
+        System.out.println(testMap.keys());
+    }
+
+    
+    @Test
+    public void removingNulls(){
+        DefaultMap<Integer, Integer> testMap = new BST();
+		 // use this for basic tests
+		/* make
+              50
+           /     \
+          30      70
+         /  \    /  \
+        20   40  60   80 */
+        testMap.put(50, null);
+        testMap.put(70, 3);
+ 
+        //System.out.println("\n50");
+        testMap.remove(70);
+        System.out.println(testMap.keys());
     }
 
 }
