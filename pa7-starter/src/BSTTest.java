@@ -154,4 +154,25 @@ public class BSTTest {
         System.out.println(testMap.keys());
     }
 
+    @Test
+    public void oneSubTreeRemoval(){
+        DefaultMap<Integer, Integer> testMap = new BST();
+		 // use this for basic tests
+		/* make
+              50
+           /     \
+          30      70
+         /  \    /  \
+        20   40  60   80 */
+        testMap.put(50, null);
+        testMap.put(30, 3);
+        testMap.put(20, 3);
+        testMap.put(40, 3);
+ 
+        //System.out.println("\n50");
+        testMap.remove(30);
+        System.out.println(testMap.size());
+        System.out.println(testMap.keys());
+    }
+
 }

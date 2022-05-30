@@ -184,8 +184,15 @@ public class BST<K extends Comparable<? super K>, V> implements DefaultMap<K, V>
 
             this.root = moveAndDelete(this.root, key);
 
+            size--;
+
             return true;
         }
+
+        if(size != 0) {
+            size--;
+        }
+
 		this.root = moveAndDelete(this.root, key);
 
         return false;
