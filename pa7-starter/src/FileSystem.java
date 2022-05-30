@@ -75,7 +75,7 @@ public class FileSystem {
                 break;
             case 0:
                 dateList.add(file);
-                dateTree.add(dateList);
+                dateTree.put(file.lastModifiedDate, dateList);
                 break;
         }
     }
