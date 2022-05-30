@@ -166,6 +166,8 @@ public class BST<K extends Comparable<? super K>, V> implements DefaultMap<K, V>
             // delete the previous stuff
             nodeToCompare.left = moveAndDelete(nodeToCompare.left, nodeToCompare.key);
         }
+        // nodeToCompare.right = null;
+        // nodeToCompare.left = null;
         return nodeToCompare;
 
     }
@@ -184,16 +186,22 @@ public class BST<K extends Comparable<? super K>, V> implements DefaultMap<K, V>
 
             this.root = moveAndDelete(this.root, key);
 
-            size--;
+            size = keys().size();
+
+            
+
 
             return true;
         }
 
-        if(size != 0) {
-            size--;
-        }
+
 
 		this.root = moveAndDelete(this.root, key);
+
+        size = keys().size();
+
+
+
 
         return false;
     }
