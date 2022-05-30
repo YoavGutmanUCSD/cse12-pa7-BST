@@ -12,8 +12,8 @@ filesystem_test="src/FileSystemTest.java"
 
 bst="src/BST.java src/DefaultMap"
 bst_test="src/BSTTest.java"
-run_to_file(${bst}${bst_test}, "BSTTest.java")
-run_to_file(${filesystem}${bst}${filesystem_test}, "FileSystemTest.java")
+run_to_file ${bst}${bst_test} "BSTTest.java"
+run_to_file ${filesystem}${bst}${filesystem_test} "FileSystemTest.java"
 
 # javac -cp $classpath -d classes/ src/*.java
 # # javac -cp $classpath -d classes/ src/FileSystemTest.java
