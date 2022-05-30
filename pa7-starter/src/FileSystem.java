@@ -189,6 +189,7 @@ public class FileSystem {
         List<String> returnable = new ArrayList<String>();
         List<String> allDates = dateTree.keys();
         System.out.format("allDates length is %s\n", allDates.size());
+        System.out.format("dateTree size is %s\n", dateTree.size());
         for(int i = 0; i < allDates.size(); i++){
             System.out.format("i is %s\n", i);
             String key = allDates.get(i);
