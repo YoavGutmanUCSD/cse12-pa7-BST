@@ -89,11 +89,11 @@ public class BSTTest {
  
         System.out.println("\n20");
         testMap.remove(20);
-		//System.out.println(testMap.keys());
+		System.out.println(testMap.keys());
  
         System.out.println("\n30");
         testMap.remove(30);
-        //System.out.println(testMap.keys());
+        System.out.println(testMap.keys());
  
         System.out.println("\n50");
         testMap.remove(50);
