@@ -23,7 +23,7 @@ public class FileSystemTest {
         fileSys.add("break_your_pc.sh", "/root", "2022-05-24");
         List<String> dt = this.fileSys.outputDateTree();
         System.out.println(dt.toString());
-        assertTrue(dt.size() != 0);
+        assertEquals(dt.size(), 2);
     }
 
 
