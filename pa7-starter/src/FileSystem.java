@@ -51,11 +51,14 @@ public class FileSystem {
     private void addNameMap(FileData file, int action){
         switch(action) {
             case 2:
+                System.out.format("Chose not to add %s to nameMap.", file.name);
                 break;
             case 1:
+                System.out.format("Replaced current value for %s in nameMap with %s.", file.name, file.toString());
                 nameTree.replace(file.name, file);
                 break;
             case 0:
+                System.out.format("Put %s in nameMap", file.name);
                 nameTree.put(file.name, file);
                 break;
         }
@@ -64,6 +67,7 @@ public class FileSystem {
         ArrayList<FileData> dateList = dateTree.get(file.lastModifiedDate);
         switch(action) {
             case 2:
+                System.out.format("Chose not to add %s to dateMap.", file.lastModifiedDate);
                 break;
             case 1:
                 for(int i = 0; i < dateList.size(); i++){
@@ -72,8 +76,10 @@ public class FileSystem {
                     }
                 }
                 dateTree.set(file.lastModifiedDate, dateList);
+                System.out.format("Replaced current value for %s in dateMap with %s", file.lastModifiedDate, file.toString());
                 break;
             case 0:
+                System.out.format("Put %s in dateMap", file.lastModifiedDate);
                 dateList.add(file);
                 dateTree.put(file.lastModifiedDate, dateList);
                 break;
