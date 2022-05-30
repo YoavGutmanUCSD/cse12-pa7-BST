@@ -121,9 +121,9 @@ public class BST<K extends Comparable<? super K>, V> implements DefaultMap<K, V>
 			return null;
 		}
         K compareSmallestKey = rightTree.key;
-        while (rightTree.left != null) {
-            compareSmallestKey = rightTree.left.key;
-            rightTree = rightTree.left;
+        while (rightTree.right != null) {
+            compareSmallestKey = rightTree.right.key;
+            rightTree = rightTree.right;
         }
 
         return compareSmallestKey;
@@ -157,14 +157,14 @@ public class BST<K extends Comparable<? super K>, V> implements DefaultMap<K, V>
             // you're not a leaf node? you have TWO children? that complicates things...
             // since your end is near you need a successor. 
             // they're the smallest in the right tree (nodeToCompare.right)
-            Node<K,V> rightTree = nodeToCompare.right;
-            K newKey = smallestInTheRight(rightTree);
+            Node<K,V> leftTree = nodeToCompare.left;
+            K newKey = smallestInTheRight(leftTree);
 
             // changing its key to the smallest key
             nodeToCompare.key = newKey;
 
             // delete the previous stuff
-            nodeToCompare.right = moveAndDelete(nodeToCompare.right, nodeToCompare.key);
+            nodeToCompare.left = moveAndDelete(nodeToCompare.left, nodeToCompare.key);
         }
         return nodeToCompare;
 
@@ -186,6 +186,8 @@ public class BST<K extends Comparable<? super K>, V> implements DefaultMap<K, V>
 
             return true;
         }
+		this.root = moveAndDelete(this.root, key);
+
         return false;
     }
 
