@@ -92,7 +92,7 @@ public class FileSystem {
         }
         FileData fileInSystem = nameTree.get(name);
         if(fileInSystem == null){
-            return 2;
+            return 0;
         }
         if(!name.equals(fileInSystem.name)){ // if naem is not the same, add it no matter what
             return 0;
