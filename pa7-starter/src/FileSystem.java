@@ -41,50 +41,6 @@ public class FileSystem {
         }
     }
 
-    // public void add(String fileName, String directory, String modifiedDate) {
-    //     // make the file..
-    //     ArrayList<FileData> someFiles = new ArrayList<FileData>();
-    //     FileData oneFile = new FileData(fileName, directory, modifiedDate);
-    //     someFiles.add(oneFile);
-
-    //     boolean inNameTree = false;
-    //     boolean inDateTree = false;
-
-    //     boolean flag = false;
-
-    //     // no duplicates!
-
-    //     // if it already exists, i need to add it to the alraedy existing key's values
-    //     if(nameTree.keys().contains(fileName)) {
-    //         ArrayList<FileData> moreFiles = nameTree.get(fileName);
-    //         for (int i = moreFiles.size()-1; i >= 0; i--) {
-    //             if(moreFiles.get(i).dir != oneFile.dir) {
-    //                 nameTree.get(fileName).add(oneFile);
-    //             }
-    //         }
-    //         flag = true;
-    //     } 
-    //     // otherwise, i'll just make a new key and add it
-    //     else {
-    //         inNameTree = nameTree.put(oneFile.name, someFiles);
-    //     }
-
-
-    //     // if it already exists, i need to add it to the alraedy existing key's values
-    //     if(dateTree.keys().contains(modifiedDate)) {
-    //         dateTree.get(modifiedDate).add(oneFile);
-    //         flag=true;
-    //     } 
-    //     // otherwise, i'll just make a new key and add it
-    //     else {
-    //         inDateTree = dateTree.put(oneFile.lastModifiedDate, someFiles);
-    //     }
-
-    //     // true if it didnt exist previously, false otherwise
-    //     // return inNameTree && inDateTree && !flag;
-
-    // }
-
     // TODO test
     public void add(String name, String dir, String date) {
         int action = decideAction(name, dir, date);
@@ -115,9 +71,11 @@ public class FileSystem {
                         dateList.set(i, file);
                     }
                 }
+                dateTree.set(file.lastModifiedDate, dateList);
                 break;
             case 0:
                 dateList.add(file);
+                dateTree.add(dateList);
                 break;
         }
     }
