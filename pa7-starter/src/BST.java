@@ -240,7 +240,7 @@ public class BST<K extends Comparable<? super K>, V> implements DefaultMap<K, V>
 
     private Node get(Node start, K key){
         if(key == null || start == null) { return null; }
-        int compareResult = comparator.compare((K) start.getKey(), key);
+        int compareResult = key.compareTo((K) start.getKey());
         if(compareResult == 0) {
             return start; 
         }
