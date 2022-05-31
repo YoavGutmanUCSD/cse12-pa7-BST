@@ -58,6 +58,22 @@ public class FileSystemTest {
         assertEquals(1, deci.decideAction(secret_diff_date));
         assertEquals(2, deci.decideAction(secret_diff_path));
     }
+    @Test
+    public void testFilterDatesConsecutive(){
+        fileSys.add(".secrets-upon-secrets", "/home", "2022-04-20");
+        fileSys.add("NuOrder Shopping List", "/home", "2022-04-20");
+        fileSys.add("Copium King-sized", "/home", "2022-04-21");
+        fileSys.add("Stalinium King-sized", "/home", "2022-04-21");
+        fileSys.add("Unobtainium King-sized", "/home", "2022-04-21");
+        fileSys.add("break_your_pc.sh", "/root", "2022-05-24");
+        fileSys.add("break_your_electrical_budget.sh", "/root", "2022-05-24");
+        fileSys.add("break_your_morale.sh", "/root", "2022-05-24");
+        fileSys.add("break_your_willpower.sh", "/root", "2022-05-24");
+        FileSystem newFileSys = fileSys.filter("2022-04-20", "2022-04-21");
+        ArrayList<String> filesBydate = fileSys.findFileNamesByDate("2022-04-20");
+        assertArrayEquals(newFileSys.findFileNamesByDate("2022-04-20").toArray(), filesBydate.toArray());
+
+    }
 }
 
 class DecideActionExclusive {
