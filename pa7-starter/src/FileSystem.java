@@ -75,6 +75,7 @@ public class FileSystem {
         ArrayList<FileData> dateList = dateTree.get(file.lastModifiedDate);
         switch(action) {
             case 1:
+                System.out.format("\n\n\n[[[[[[[[[[[[[[[[[CASE 1]]]]]]]]]]]]]]]]]\n\n\n");
                 // find old
                 for(int i = 0; i < dateList.size(); i++){
                     // if found, replace old
