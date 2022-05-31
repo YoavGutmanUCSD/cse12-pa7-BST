@@ -27,8 +27,8 @@ public class BST<K extends Comparable<? super K>, V> implements DefaultMap<K, V>
     // size of tree
     int size = 0;
 
-	// list of keys
-	ArrayList<K> keyList = new ArrayList();
+    // list of keys
+    ArrayList<K> keyList = new ArrayList();
 
     // Constructors
     BST() {
@@ -117,9 +117,9 @@ public class BST<K extends Comparable<? super K>, V> implements DefaultMap<K, V>
 
     // find the smallest key in the right (used in the next method)
     private K smallestInTheRight(Node<K,V> rightTree) {
-		if (rightTree == null) {
-			return null;
-		}
+        if (rightTree == null) {
+            return null;
+        }
         K compareSmallestKey = rightTree.key;
         while (rightTree.right != null) {
             compareSmallestKey = rightTree.right.key;
@@ -177,9 +177,9 @@ public class BST<K extends Comparable<? super K>, V> implements DefaultMap<K, V>
     // deletes the specified key
     @Override
     public boolean remove(K key) throws IllegalArgumentException {
-		if(key==null) {
-			throw new IllegalArgumentException("Key cannot be null.");
-		}
+        if(key==null) {
+            throw new IllegalArgumentException("Key cannot be null.");
+        }
 
 
         if(this.root != moveAndDelete(this.root, key)) {
@@ -188,7 +188,7 @@ public class BST<K extends Comparable<? super K>, V> implements DefaultMap<K, V>
 
             size = keys().size();
 
-            
+
 
 
             return true;
@@ -196,7 +196,7 @@ public class BST<K extends Comparable<? super K>, V> implements DefaultMap<K, V>
 
 
 
-		this.root = moveAndDelete(this.root, key);
+        this.root = moveAndDelete(this.root, key);
 
         size = keys().size();
 
@@ -286,30 +286,30 @@ public class BST<K extends Comparable<? super K>, V> implements DefaultMap<K, V>
     @Override
     public boolean containsKey(K key) throws IllegalArgumentException {
         if(get(key) == null) {
-			return false;
-		}
-		return true;
+            return false;
+        }
+        return true;
     }
 
-	// all keys in the left and right
-	private void transverseRealms(Node<K,V> root) {
-		if (root != null) {
-			transverseRealms(root.right);
+    // all keys in the left and right
+    private void transverseRealms(Node<K,V> root) {
+        if (root != null) {
+            transverseRealms(root.right);
             //transverseRealms(root.left);
             keyList.add(root.key);
             //transverseRealms(root.right);
-			transverseRealms(root.left);
+            transverseRealms(root.left);
         }
-	}
+    }
 
     // Keys must be in ascending sorted order
     // You CANNOT use Collections.sort() or any other sorting implementations
     // You must do inorder traversal of the tree
     @Override
     public List<K> keys() {
-		keyList.clear();
-		transverseRealms(root);
-		return keyList;
+        keyList.clear();
+        transverseRealms(root);
+        return keyList;
     }
 
     private static class Node<K extends Comparable<? super K>, V> 
