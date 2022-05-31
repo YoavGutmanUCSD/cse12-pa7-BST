@@ -181,27 +181,15 @@ public class BST<K extends Comparable<? super K>, V> implements DefaultMap<K, V>
             throw new IllegalArgumentException("Key cannot be null.");
         }
 
-
         if(this.root != moveAndDelete(this.root, key)) {
-
             this.root = moveAndDelete(this.root, key);
-
             size = keys().size();
-
-
-
 
             return true;
         }
 
-
-
         this.root = moveAndDelete(this.root, key);
-
         size = keys().size();
-
-
-
 
         return false;
     }
@@ -252,11 +240,20 @@ public class BST<K extends Comparable<? super K>, V> implements DefaultMap<K, V>
 
     private Node get(Node start, K key){
         if(key == null || start == null) { return null; }
-        if(start.getKey().equals(key)) { return start; }
-        Node leftMost = get(start.left, key);
-        Node rightMost = get(start.left, key);
-        if(leftMost != null) { return leftMost; }
-        if(rightMost != null) { return rightMost; }
+        int compareResult = comparator.compare((K) start.getKey(), key);
+        if(compareResult == 0) {
+            return start; 
+        }
+        if(compareResult > 0) {
+            return get(start.left, key);
+        }
+        if(compareResult < 0) {
+            return get(start.right, key);
+        }
+        // Node leftMost = get(start.left, key);
+        // Node rightMost = get(start.left, key);
+        // if(leftMost != null) { return leftMost; }
+        // if(rightMost != null) { return rightMost; }
         return null;
     }
 

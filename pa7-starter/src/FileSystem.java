@@ -188,7 +188,9 @@ public class FileSystem {
         int month = parsedDate[1];
         int day = parsedDate[2];
         int threshold = daysInMonth(month);
+        // if day threshold reached, increment month 
         if (threshold == day){
+            // if month threshold reached, increment year and go to january 1st
             if (month == 12){
                 return new int[]{year + 1, 1, 1};
             }
@@ -219,6 +221,7 @@ public class FileSystem {
     //     }
     //     return 28;
     // }
+    // // this is the algorithm for determining a leap year.
     // private boolean leapYear(int year){
     //     if(year % 100 == 0)
     //         return year % 400 == 0;
