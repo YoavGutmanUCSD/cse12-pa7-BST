@@ -205,7 +205,7 @@ public class FileSystem {
             String key = allDates.get(i);
             ArrayList<FileData> allFiles = dateTree.get(key);
             for(int j = 0; j < allFiles.size(); j++){
-                String entry = genEntry(key, allFiles.get(i));
+                String entry = genEntry(key, allFiles.get(j));
                 returnable.add(entry);
             }
         }
