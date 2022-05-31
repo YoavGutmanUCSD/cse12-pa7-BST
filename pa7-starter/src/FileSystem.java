@@ -114,7 +114,7 @@ public class FileSystem {
     public ArrayList<String> findFileNamesByDate(String date) {
         if(date == null) return null;
         ArrayList<String> dateNameList = new ArrayList<String>();
-        ArrayList<FileData> dateFileDataList = dateTree.get(date);;
+        ArrayList<FileData> dateFileDataList = dateTree.get(date);
         for(int i = 0; i < dateFileDataList.size(); i++){
             dateNameList.add(dateFileDataList.get(i).name);
         }

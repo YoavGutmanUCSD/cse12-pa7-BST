@@ -254,9 +254,10 @@ public class BST<K extends Comparable<? super K>, V> implements DefaultMap<K, V>
         if(key == null || start == null) { return null; }
         if(start.getKey().equals(key)) { return start; }
         Node leftMost = get(start.left, key);
-        Node rightMost = get(start.left, key);
+        Node rightMost = get(start.right, key);
         if(leftMost != null) { return leftMost; }
         if(rightMost != null) { return rightMost; }
+        System.out.println("your mother");
         return null;
     }
 
