@@ -44,6 +44,7 @@ public class FileSystem {
     // TODO test
     public void add(String name, String dir, String date) {
         int action = decideAction(name, dir, date);
+        // if(action == 2) return;
         FileData file = new FileData(name, dir, date);
         addNameMap(file, action);
         addDateMap(file, action);
@@ -80,6 +81,7 @@ public class FileSystem {
                 break;
             case 0:
                 System.out.format("Put %s in dateMap\n", file.lastModifiedDate);
+                System.out.format("%s\n", file);
                 dateList.add(file);
                 dateTree.put(file.lastModifiedDate, dateList);
                 break;
