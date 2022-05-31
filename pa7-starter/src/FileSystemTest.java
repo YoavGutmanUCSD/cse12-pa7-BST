@@ -60,6 +60,7 @@ public class FileSystemTest {
     }
     @Test
     public void testFilterDatesConsecutive(){
+        System.out.format("Started.\n");
         fileSys.add(".secrets-upon-secrets", "/home", "2022-04-20");
         fileSys.add("NuOrder Shopping List", "/home", "2022-04-20");
         fileSys.add("Copium King-sized", "/home", "2022-04-21");
