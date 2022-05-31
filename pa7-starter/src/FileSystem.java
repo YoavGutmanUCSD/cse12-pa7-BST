@@ -184,13 +184,30 @@ public class FileSystem {
 
     // TODO
     public FileSystem filter(String wildCard) {
-        return null;
+        FileSystem newFileSystem = new FileSystem();
+        List<String> datesToExamine = new LinkedList<String>();
+        for(String date: dateTree.keys()){
+            if(date.contains(wildCard)){
+                datesToExamine.add(date);
+            }
+        }
+        for(String date: datesToExamine){
+            List<FileData> filesAtDate = dateTree.get(date);
+            for(FileData file: filesAtDate){
+                newFileSystem.add(file.name, file.dir, file.lastModifiedDate);
+            }
+        }
+        // int[] endDateInt = parseDate(endDate);
+        // int[] currentDateInt = parseDate(startDate);
+        return newFileSystem;
     }
 
 
     // TODO
     public List<String> outputNameTree(){
-        return null;
+        // List<String> returnable = new ArrayList<String>();
+        // List<String> allNames = nameTree.keys();
+        return nameTree.keys();
     }
 
 
