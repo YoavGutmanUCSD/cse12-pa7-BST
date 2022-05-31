@@ -27,13 +27,14 @@ public class FileSystem {
         try {
             File f = new File(inputFile);
             Scanner sc = new Scanner(f);
+            // read file line by line and add each one as a FileData object
             while (sc.hasNextLine()) {
                 String[] data = sc.nextLine().split(", ");
                 // Add your code here
                 String fileName = data[0];
                 String fileDir = data[1];
                 String fileDate = data[2];
-                add(fileName, fileDir, fileDate); // make this work when you can 
+                add(fileName, fileDir, fileDate);
             }
             sc.close();
         } catch (FileNotFoundException e) {
@@ -43,6 +44,7 @@ public class FileSystem {
 
     // TODO test
     public void add(String name, String dir, String date) {
+        // add FileData object to both maps depending on what decideAction returns
         int action = decideAction(name, dir, date);
         FileData file = new FileData(name, dir, date);
         if(action == 2) return;
@@ -52,58 +54,78 @@ public class FileSystem {
     }
     private void addNameMap(FileData file, int action){
         switch(action) {
-            case 2:
-                System.out.format("Chose not to add %s to nameMap.\n", file.name);
-                break;
             case 1:
+                // replace old
                 System.out.format("Replaced current value for %s in nameMap with %s.\n", file.name, file.toString());
                 nameTree.replace(file.name, file);
                 break;
             case 0:
+                // add new
                 System.out.format("Put %s in nameMap\n", file.name);
                 nameTree.put(file.name, file);
+                break;
+            // case 2:
+            default:
+                // indecision
+                System.out.format("Chose not to add %s to nameMap.\n", file.name);
                 break;
         }
     }
     private void addDateMap(FileData file, int action){
         ArrayList<FileData> dateList = dateTree.get(file.lastModifiedDate);
         switch(action) {
-            case 2:
-                System.out.format("Chose not to add %s to dateMap.\n", file.lastModifiedDate);
-                break;
             case 1:
+                // find old
                 for(int i = 0; i < dateList.size(); i++){
+                    // if found, replace old
                     if(dateList.get(i).name.equals(file.name)){
                         dateList.set(i, file);
+                        break;
                     }
                 }
+                // replace old object with new object
                 dateTree.set(file.lastModifiedDate, dateList);
                 System.out.format("Replaced current value for %s in dateMap with %s\n", file.lastModifiedDate, file.toString());
                 break;
             case 0:
-                System.out.format("Put %s in dateMap\n", file.lastModifiedDate);
-                System.out.format("%s\n", file);
+                // add new ArrayList for the specific date, with only 1 file
                 dateList = new ArrayList<FileData>();
                 dateList.add(file);
                 dateTree.put(file.lastModifiedDate, dateList);
+                System.out.format("Put %s in dateMap\n", file.lastModifiedDate);
+                break;
+            // case 2:
+            default:
+                // indecision
+                System.out.format("Chose not to add %s to dateMap.\n", file.lastModifiedDate);
                 break;
         }
     }
     private int decideAction(String name, String dir, String date){
-        // return 0 if add, 1 if modify, 2 if do nothing
+        /* According to the truth table in the writeup:
+         * Add if the name is different, no matter what.
+         * Replace if name is the same, but date is different.
+         * Do nothing if only directory changes. I don't understand the logic.
+         */
+        // return 0 if add, 1 if modify, 2 if do nothing.
         if(name == null || dir == null || date == null){
             return 2;
         }
         FileData fileInSystem = nameTree.get(name);
+        
+        // true if no prior value
         if(fileInSystem == null){
             return 0;
         }
-        if(!name.equals(fileInSystem.name)){ // if naem is not the same, add it no matter what
+
+        if(!name.equals(fileInSystem.name)){ 
             return 0;
         }
         if(!date.equals(fileInSystem.lastModifiedDate)){
             return 1;
         }
+
+        // no conditions pass = do nothing
         else {
             return 2;
         }
@@ -140,6 +162,7 @@ public class FileSystem {
         return newFileSystem;
     }
 
+    // convert a string in format YYYY-MM-DD into an int array like [YYYY, MM, DD]
     private int[] parseDate(String date){
         String[] dateSplit = date.split("/");
         int[] year_month_day = new int[3];
@@ -148,12 +171,17 @@ public class FileSystem {
         }
         return year_month_day;
     }
+    // // this function is irrelevant basically
     // private String generateDateString(int year, int month, int day){
     //     return String.format("%s/%s/%s", year, month, day);
     // }
+
+    // reverse parseDate
     private String generateDateString(int[] dateInfo){
         return String.format("%s/%s/%s", dateInfo[0], dateInfo[1], dateInfo[2]);
     }
+
+    // increment date. more involved than you might think.
     private int[] incrementParsedDate(int[] parsedDate){
         int[] newDate;
         int year = parsedDate[0];
@@ -168,6 +196,9 @@ public class FileSystem {
         }
         return new int[]{year, month, day+1};
     }
+
+    // some months have 30 days, others have 31, one in particular has 28. 
+    // this method will return the proper number of days according to the month
     private int daysInMonth(int month){
         int[] monthsWhere31Days = {1, 3, 5, 7, 8, 10, 12};
         int february = 2;
@@ -181,6 +212,18 @@ public class FileSystem {
         }
         return 30;
     }
+    // // you can use this to account for leap years, but then you'd need to add another argument to daysInMonth
+    // private int februaryAccounting(int year){
+    //     if(leapYear(year)){
+    //         return 29;
+    //     }
+    //     return 28;
+    // }
+    // private boolean leapYear(int year){
+    //     if(year % 100 == 0)
+    //         return year % 400 == 0;
+    //     return year % 4 == 0;
+    // }
 
     // TODO
     public FileSystem filter(String wildCard) {
