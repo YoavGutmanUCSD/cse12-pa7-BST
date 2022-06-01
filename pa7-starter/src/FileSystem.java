@@ -72,19 +72,23 @@ public class FileSystem {
         }
     }
     private void addDateMap(FileData file, int action){
-        ArrayList<FileData> dateList = dateTree.get(file.lastModifiedDate);
+        ArrayList<FileData> dateList; // 
+        FileData oldFile;
         switch(action) {
             case 1:
-                System.out.format("\n\n\n[[[[[[[[[[[[[[[[[CASE 1]]]]]]]]]]]]]]]]]\n\n\n");
+                oldFile = nameTree.get(file.name);
+                ArrayList<FileData> oldDateList = dateTree.get(oldFile.lastModifiedDate);
+                dateList = dateTree.get(file.lastModifiedDate);
+                // System.out.format("\n\n\n[[[[[[[[[[[[[[[[[CASE 1]]]]]]]]]]]]]]]]]\n\n\n");
                 // find old
-                for(int i = 0; i < dateList.size(); i++){
+                for(int i = 0; i < oldDateList.size(); i++){
                     // if found, replace old
                     if(dateList.get(i).name.equals(file.name)){
-                        dateList.set(i, file);
+                        dateList.remove(i);
                         break;
                     }
                 }
-                // replace old object with new object
+                dateList.add(oldFile);
                 dateTree.set(file.lastModifiedDate, dateList);
                 System.out.format("Replaced current value for %s in dateMap with %s\n", file.lastModifiedDate, file.toString());
                 break;
@@ -103,17 +107,18 @@ public class FileSystem {
         }
     }
     private int decideAction(String name, String dir, String date){
-        /* According to the truth table in the writeup:
+        /* This function gives 0 if the name is different, 1 if the date is different, 2 otherwise.
+         * Likely should be renamed as a function
+         * According to the truth table in the writeup:
          * Add if the name is different, no matter what.
-         * Replace if name is the same, but date is different.
+         * Replace if name is the same, but date is different. 
+         * (This means you have to remove from one ArrayList and add to another in dateMap.)
          * Do nothing if only directory changes. I don't understand the logic.
          */
-        // return 0 if add, 1 if modify, 2 if do nothing.
         if(name == null || dir == null || date == null){
             return 2;
         }
         FileData fileInSystem = nameTree.get(name);
-        
         // true if no prior value
         if(fileInSystem == null){
             return 0;
@@ -131,6 +136,19 @@ public class FileSystem {
             return 2;
         }
     }
+    // private boolean shouldReplaceDatelist(String name, String dir, String date){
+
+    // }
+    // private boolean shouldAdd(String name, String dir, String date){
+    //     if(name == null || dir == null || date == null){
+    //         return false;
+    //     }
+    //     FileData fileInSystem = nameTree.get(name);
+    //     if(fileInSystem == null){
+    //         return true;
+    //     }
+    //     return false;
+    // }
 
 
     // TODO test
