@@ -173,7 +173,7 @@ public class BSTTest {
         testMap.put(80, 3);
  
         //System.out.println("\n50");
-        testMap.remove(70);
+        //testMap.remove(70);
         System.out.println(testMap.size());
         System.out.println(testMap.keys());
     }

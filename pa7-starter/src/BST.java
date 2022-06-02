@@ -141,10 +141,10 @@ public class BST<K extends Comparable<? super K>, V> implements DefaultMap<K, V>
         // int comp = comparator.compare(nodeToCompare.key, key);
         int comp = key.compareTo(nodeToCompare.key);
 
-        if (comp < 0) {
+        if (comp > 0) {
             nodeToCompare.right = this.moveAndDelete(nodeToCompare.right, key);
 
-        } else if (comp > 0) {
+        } else if (comp < 0) {
             nodeToCompare.left = this.moveAndDelete(nodeToCompare.left, key);
         } 
 
