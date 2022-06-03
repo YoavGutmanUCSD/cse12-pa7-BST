@@ -62,7 +62,7 @@ public class BST<K extends Comparable<? super K>, V> implements DefaultMap<K, V>
         } else if (comp > 0) {
             nodeToCompare.left = this.compareAdd(nodeToCompare.left, key, value);
         } else {
-            return this.root;
+            //return this.root;
         }
 
         return nodeToCompare;

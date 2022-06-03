@@ -59,7 +59,7 @@ public class FileSystem {
             if(fileByDate == null){
                 ArrayList<FileData> fileArrayToAdd = new ArrayList<FileData>();
                 fileArrayToAdd.add(fileToAdd);
-                System.out.println(date);
+                //System.out.println(fileArrayToAdd);
                 dateTree.put(date, fileArrayToAdd);
                 return;
             }
