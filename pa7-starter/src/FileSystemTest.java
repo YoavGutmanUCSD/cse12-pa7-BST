@@ -75,6 +75,27 @@ public class FileSystemTest {
         assertArrayEquals(newFileSys.findFileNamesByDate("2022-04-20").toArray(), filesBydate.toArray());
 
     }
+    @Test
+    public void testOutputDateTrees(){
+        FileData secret = new FileData(".secrets-upon-secrets", "/home", "2022-04-20");
+        FileData nuOrder = new FileData("NuOrder Shopping List", "/home", "2022-04-20");
+        FileData copium = new FileData("Copium King-sized", "/home", "2022-04-21");
+        fileSys.add(".secrets-upon-secrets", "/home", "2022-04-20");
+        fileSys.add("NuOrder Shopping List", "/home", "2022-04-20");
+        fileSys.add("Copium King-sized", "/home", "2022-04-21"); 
+        // ArrayList<String> dateTreeOut = fileSys.outputDateTree();
+        Object[] dateTreeOut = fileSys.outputDateTree().toArray();
+        Object[] dateTreeExpected = {
+            genEntry("2022-04-20", secret),
+            genEntry("2022-04-20", nuOrder),
+            genEntry("2022-04-21", copium)
+        };
+        // assertArrayEquals(dateTreeOut, dateTreeExpected);
+        assertArrayEquals(dateTreeOut, dateTreeExpected);
+    }
+    private String genEntry(String key, FileData file){
+        return String.format("%s: %s", key, file.toString());
+    }
 }
 
 class DecideActionExclusive {
