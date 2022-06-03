@@ -1,6 +1,8 @@
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 import java.util.Stack;
 
 /**
@@ -143,88 +145,166 @@ public class BST<K extends Comparable<? super K>, V> implements DefaultMap<K, V>
         return rightTree;
     }
 
-    // moving through the tree and deleting values
-    private Node<K,V> moveAndDelete(Node<K,V> nodeToCompare, K key) { 
-
-        // empty trees
-        if(nodeToCompare == null) {
-            return nodeToCompare;
-        }
-
-        // moving through the tree by comparison
-        // int comp = comparator.compare(nodeToCompare.key, key);
-        int comp = key.compareTo(nodeToCompare.key);
-
-        if (comp < 0) {
-            nodeToCompare.right = this.moveAndDelete(nodeToCompare.right, key);
-
-        } else if (comp > 0) {
-            nodeToCompare.left = this.moveAndDelete(nodeToCompare.left, key);
-        } 
-
-        // key is the same? WE'RE HERE (time to delete)
-        else {
-            // so, are you a leaf node? you have a child? I don't care, say goodbye!
-            if(nodeToCompare.right == null) {return nodeToCompare.left;}
-            if(nodeToCompare.left == null) {return nodeToCompare.right;}
-
-            // you're not a leaf node? you have TWO children? that complicates things...
-            // they're the smallest in the right tree (nodeToCompare.right)
-            Node<K,V> leftTree = nodeToCompare.left;
-            Node<K,V> rightTree = nodeToCompare.right;
-
-            if(nodeToCompare.left != null){
-                // changing its key to the smallest key
-                Node<K,V> newKeyLeft = biggestInTheLeft(leftTree);
-                nodeToCompare = newKeyLeft;
-            }
-
-            // our key to remove has no left child, but a right child
-            // replace our key's node with the smallest node in this right subtree
-            else if (nodeToCompare.right != null){
-                // changing its key to the smallest key
-                Node<K,V> newKeyRight = smallestInTheRight(rightTree);
-                nodeToCompare = newKeyRight;
-            }
 
 
-            // delete the previous stuff (idk if this works)
-            nodeToCompare.right = moveAndDelete(nodeToCompare.left, nodeToCompare.key);
-            nodeToCompare.left = moveAndDelete(nodeToCompare.left, nodeToCompare.key);
-    }
-        // nodeToCompare.right = null;
-        // nodeToCompare.left = null;
-        return nodeToCompare;
+	// For when our key has a left child
+	// Replace our key's node with the smallest node in this left subtree
+	public void replaceNodeWithLeftSubtreeMinimum(Node<K, V> nodeToReplace, Node<K, V> leftChild, Node<K, V> parent){
+		// keep going left as much as possible
+		while (leftChild.left != null){
+			parent = parent.left;
+			leftChild = leftChild.left;
+		}
 
-    }
+		nodeToReplace.key = leftChild.key;
+		nodeToReplace.value = leftChild.value;
+
+		if(leftChild.right != null){
+			parent.left = leftChild.right;
+		}
+		else{
+			parent.left = null;
+		}
+	}
+
+	// For when our key has a right child, but no left
+	// Replace our key's node with the smallest node in this right subtree
+	public void replaceNodeWithRightSubtreeMinimum(Node<K, V> nodeToReplace, Node<K, V> rightChild, Node<K,V> parent){
+		if(rightChild.left != null){
+			Node<K, V> leftChild = rightChild.left;
+			parent = rightChild;
+
+			while (leftChild.left != null){
+				parent = parent.left;
+				leftChild = leftChild.left;
+			}
+
+			nodeToReplace.key = leftChild.key;
+			nodeToReplace.value = leftChild.value;
+
+			if(leftChild.right != null){
+				parent.left = leftChild.right;
+			}
+			else {
+				leftChild = null;
+			}
+		}
+	    else {
+  			nodeToReplace.key = rightChild.key;
+  			nodeToReplace.value = rightChild.value;
+  			parent.right = null;
+	    }
+		return;
+	}
+
+	// For when our key has no left nor right child (is a leaf node)
+	// Replace our key's node with null
+	public void removeLeafNode(Node<K,V> nodeToRemove, Node<K,V> previous){
+
+		if(previous == null){
+			this.root = null;
+		}
+		if(nodeToRemove.key.equals(previous.left.key)){
+			previous.left = null;
+		}
+		else{
+			previous.right.key = null;
+		}
+	}
+
 
 
     // O(n) Time complexity
     // deletes the specified key
     @Override
     public boolean remove(K key) throws IllegalArgumentException {
+        K keyToRemove = key;
+
         if(key==null) {
             throw new IllegalArgumentException("Key cannot be null.");
         }
 
-        try {
-                if(this.root != moveAndDelete(this.root, key)) {
+		// Nodes visited by BFS
+		Queue<Node<K,V>> queue = new LinkedList<>();
+		queue.add(this.root);
 
-                    this.root = moveAndDelete(this.root, key);
+		// Parent nodes of nodes visited by BFS
+		Queue<Node<K, V>> previousNodes = new LinkedList<>();
+		previousNodes.add(null);
 
-                    size = keys().size();
+		while(!queue.isEmpty()){
+			Node<K, V> current = queue.remove();
+			Node<K, V> previous = previousNodes.remove();
 
-                    return true;
-                }
+			// If the key is found, remove it
+			if (current.key.equals(keyToRemove)) {
+				this.size--;
 
+				// if keyToRemove is the only node in the map
+				if(this.size()<1){
+					this.root = null;
+					return true;
+				}
 
-                this.root = moveAndDelete(this.root, key);
+				/* We want to replace the node that our keyToRemove belongs to
+				 * with the next smallest value (smallest key that is larger than
+				 * our key). There are three possible cases we may have:
+				 *
+				 * 	1) Our keyToRemove belongs to a node with two children
+				 *  2) Our keyToRemove belongs to a node with one child
+				 *  3) Out keyToRemove belongs to a node with no children (is a leaf node)
+				 *
+				 *  We first check if a left subtree exists. If so, find the minimum key
+				 *  in this left subtree and replace our keyToRemove's node with it.
+				 *
+				 *  If not, then we check if a right subtree exists. If so, find the
+				 *  minimum key in this right subtree and replace our keyToRemove's
+				 *  node with it.
+				 *
+				 *  If not, our keyToRemove belongs to a leaf node, which we simply
+				 *  want to remove by having its parent node have null instead of this
+				 *  node as a child (left or right child, depending on which case we have).
+				 */
 
-                size = keys().size();
+				Node<K, V> parent = current;
+				Node<K, V> leftChild = current.left;
+				Node<K, V> rightChild = current.right;
 
+				// our key to remove has a left node
+				// replace our key's node with the smallest node in this left subtree
+				if(leftChild != null){
+					this.replaceNodeWithLeftSubtreeMinimum(current, leftChild, parent);
+				}
 
-                return false;
-        }  catch (Exception e) {size--; return false;}
+				// our key to remove has no left child, but a right child
+				// replace our key's node with the smallest node in this right subtree
+				else if (rightChild != null){
+					this.replaceNodeWithRightSubtreeMinimum(current, rightChild, parent);
+				}
+
+				// our key to remove is a leaf node
+				// replace our key's node with null
+				else{
+					removeLeafNode(current, previous);
+				}
+				return true;
+			}
+
+			// Add left child of current node
+			if(current.left != null){
+				queue.add(current.left);
+				previousNodes.add(current);
+			}
+			//Add right child of current node
+			if(current.right != null){
+				queue.add(current.right);
+				previousNodes.add(current);
+			}
+		}
+		// Key to remove was not found
+		//throw new NoSuchElementException(keyToRemove.toString());
+        return false;
+
     }
 
 

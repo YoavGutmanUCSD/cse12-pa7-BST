@@ -47,7 +47,10 @@ public class FileSystem {
         // add FileData object to both maps depending on what decideAction returns
         int action = decideAction(name, dir, date);
         FileData file = new FileData(name, dir, date);
-        if(action == 2) return;
+        if(action == 2) {
+            // System.out.format("Addition case 2 for ");
+            return;
+        }
         if(file == null) System.out.println("Something's in the way");
         addNameMap(file, action);
         addDateMap(file, action);
@@ -56,18 +59,18 @@ public class FileSystem {
         switch(action) {
             case 1:
                 // replace old
-                System.out.format("Replaced current value for %s in nameMap with %s.\n", file.name, file.toString());
+                // System.out.format("Replaced current value for %s in nameMap with %s.\n", file.name, file.toString());
                 nameTree.replace(file.name, file);
                 break;
             case 0:
                 // add new
-                System.out.format("Put %s in nameMap\n", file.name);
+                // System.out.format("Put %s in nameMap\n", file.name);
                 nameTree.put(file.name, file);
                 break;
             // case 2:
             default:
                 // indecision
-                System.out.format("Chose not to add %s to nameMap.\n", file.name);
+                // System.out.format("Chose not to add %s to nameMap.\n", file.name);
                 break;
         }
     }
@@ -76,14 +79,15 @@ public class FileSystem {
         FileData oldFile;
         switch(action) {
             case 1:
+                System.out.format("Addition case 1 for file %s", file.toString());
                 oldFile = nameTree.get(file.name);
                 ArrayList<FileData> oldDateList = dateTree.get(oldFile.lastModifiedDate);
                 dateList = dateTree.get(file.lastModifiedDate);
                 // System.out.format("\n\n\n[[[[[[[[[[[[[[[[[CASE 1]]]]]]]]]]]]]]]]]\n\n\n");
                 // find old
-                for(int i = 0; i < oldDateList.size(); i++){
+                for (int i = 0; i < oldDateList.size(); i++) {
                     // if found, replace old
-                    if(dateList.get(i).name.equals(file.name)){
+                    if (dateList.get(i).name.equals(file.name)) {
                         dateList.remove(i);
                         break;
                     }
@@ -94,9 +98,18 @@ public class FileSystem {
                 break;
             case 0:
                 // add new ArrayList for the specific date, with only 1 file
-                dateList = new ArrayList<FileData>();
-                dateList.add(file);
-                dateTree.put(file.lastModifiedDate, dateList);
+                if(dateTree.get(file.lastModifiedDate) == null){
+                    System.out.println("Path 1");
+                    dateList = new ArrayList<FileData>();           
+                    dateList.add(file);
+                    dateTree.put(file.lastModifiedDate, dateList);
+                }
+                else {
+                    System.out.println("Path 2");
+                    dateList = dateTree.get(file.lastModifiedDate);
+                    dateList.add(file);
+                    dateTree.set(file.lastModifiedDate, dateList);
+                }
                 System.out.format("Put %s in dateMap\n", file.lastModifiedDate);
                 break;
             // case 2:
