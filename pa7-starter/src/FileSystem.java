@@ -208,6 +208,10 @@ public class FileSystem {
 
     // reverse parseDate
     private String generateDateString(int[] dateInfo){
+        // if month is a value under 10, add a 0 so it's 0x instead of x.
+        if(dateInfo[1] < 10){
+            return String.format("%s-0%s-%s", dateInfo[0], dateInfo[1], dateInfo[2]);
+        }
         return String.format("%s-%s-%s", dateInfo[0], dateInfo[1], dateInfo[2]);
     }
 
