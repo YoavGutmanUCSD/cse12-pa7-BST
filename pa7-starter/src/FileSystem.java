@@ -298,10 +298,11 @@ public class FileSystem {
         // System.out.format("allDates length is %s\n", allDates.size());
         // System.out.format("dateTree size is %s\n", dateTree.size());
         for(int i = 0; i < allDates.size(); i++){
-            // System.out.format("i is %s\n", i);
+            //System.out.format("i is %s\n", i);
             String key = allDates.get(i);
             ArrayList<FileData> allFiles = dateTree.get(key);
             for(int j = 0; j < allFiles.size(); j++){
+                // System.out.format("i is %s\n", i);
                 String entry = genEntry(key, allFiles.get(j));
                 returnable.add(entry);
             }
