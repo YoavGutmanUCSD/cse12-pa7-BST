@@ -45,110 +45,145 @@ public class FileSystem {
     // TODO test
     public void add(String name, String dir, String date) {
         // add FileData object to both maps depending on what decideAction returns
-        int action = decideAction(name, dir, date);
-        FileData file = new FileData(name, dir, date);
-        if(action == 2) {
-            // System.out.format("Addition case 2 for ");
-            return;
-        }
-        if(file == null) System.out.println("Something's in the way");
-        addNameMap(file, action);
-        addDateMap(file, action);
-    }
-    private void addNameMap(FileData file, int action){
-        switch(action) {
-            case 1:
-                // replace old
-                // System.out.format("Replaced current value for %s in nameMap with %s.\n", file.name, file.toString());
-                nameTree.replace(file.name, file);
-                break;
-            case 0:
-                // add new
-                // System.out.format("Put %s in nameMap\n", file.name);
-                nameTree.put(file.name, file);
-                break;
-            // case 2:
-            default:
-                // indecision
-                // System.out.format("Chose not to add %s to nameMap.\n", file.name);
-                break;
-        }
-    }
-    private void addDateMap(FileData file, int action){
-        ArrayList<FileData> dateList; // 
-        FileData oldFile;
-        switch(action) {
-            case 1:
-                System.out.format("Addition case 1 for file %s", file.toString());
-                oldFile = nameTree.get(file.name);
-                ArrayList<FileData> oldDateList = dateTree.get(oldFile.lastModifiedDate);
-                dateList = dateTree.get(file.lastModifiedDate);
-                // System.out.format("\n\n\n[[[[[[[[[[[[[[[[[CASE 1]]]]]]]]]]]]]]]]]\n\n\n");
-                // find old
-                for (int i = 0; i < oldDateList.size(); i++) {
-                    // if found, replace old
-                    if (dateList.get(i).name.equals(file.name)) {
-                        dateList.remove(i);
-                        break;
-                    }
-                }
-                dateList.add(oldFile);
-                dateTree.set(file.lastModifiedDate, dateList);
-                System.out.format("Replaced current value for %s in dateMap with %s\n", file.lastModifiedDate, file.toString());
-                break;
-            case 0:
-                // add new ArrayList for the specific date, with only 1 file
-                if(dateTree.get(file.lastModifiedDate) == null){
-                    System.out.println("Path 1");
-                    dateList = new ArrayList<FileData>();           
-                    dateList.add(file);
-                    dateTree.put(file.lastModifiedDate, dateList);
-                }
-                else {
-                    System.out.println("Path 2");
-                    dateList = dateTree.get(file.lastModifiedDate);
-                    dateList.add(file);
-                    dateTree.set(file.lastModifiedDate, dateList);
-                }
-                System.out.format("Put %s in dateMap\n", file.lastModifiedDate);
-                break;
-            // case 2:
-            default:
-                // indecision
-                System.out.format("Chose not to add %s to dateMap.\n", file.lastModifiedDate);
-                break;
-        }
-    }
-    private int decideAction(String name, String dir, String date){
-        /* This function gives 0 if the name is different, 1 if the date is different, 2 otherwise.
-         * Likely should be renamed as a function
-         * According to the truth table in the writeup:
-         * Add if the name is different, no matter what.
-         * Replace if name is the same, but date is different. 
-         * (This means you have to remove from one ArrayList and add to another in dateMap.)
-         * Do nothing if only directory changes. I don't understand the logic.
-         */
-        if(name == null || dir == null || date == null){
-            return 2;
-        }
-        FileData fileInSystem = nameTree.get(name);
-        // true if no prior value
-        if(fileInSystem == null){
-            return 0;
-        }
+        // boolean containsName = nameTree.keys().contains(name);
+        // boolean containsDate = dateTree.keys().contains(date);
 
-        if(!name.equals(fileInSystem.name)){ 
-            return 0;
-        }
-        if(!date.equals(fileInSystem.lastModifiedDate)){
-            return 1;
-        }
+        FileData fileByName = nameTree.get(name);
+        FileData fileToAdd = new FileData(name, dir, date);
+        ArrayList<FileData> fileByDate = dateTree.get(date);
+        // List<FileData> newFileByDate = dateTree.get(date);
+        // List<FileData> oldFileByDate = dateTree.get(fileByName.date);
 
-        // no conditions pass = do nothing
-        else {
-            return 2;
+        // name diffs
+        if(fileByName == null){
+            nameTree.put(name, fileToAdd);
+            if(fileByDate == null){
+                ArrayList<FileData> fileArrayToAdd = new ArrayList<FileData>();
+                fileArrayToAdd.add(fileToAdd);
+                dateTree.put(date, fileArrayToAdd);
+                return;
+            }
+            fileByDate.add(fileToAdd);
+            dateTree.set(date, fileByDate);
         }
+        else if (!fileByName.lastModifiedDate.equals(fileToAdd.lastModifiedDate)) {
+            nameTree.replace(name, fileToAdd);
+            if(fileByDate == null){
+                ArrayList<FileData> fileArrayToAdd = new ArrayList<FileData>();
+                fileArrayToAdd.add(fileToAdd);
+                dateTree.put(date, fileArrayToAdd);
+                return;
+            }
+            fileByDate.add(fileToAdd);
+            dateTree.set(date, fileByDate);
+        }
+        // else {
+        //     return;
+        // }
+        // int action = decideAction(name, dir, date);
+        // FileData file = new FileData(name, dir, date);
+        // if(action == 2) {
+        //     // System.out.format("Addition case 2 for ");
+        //     return;
+        // }
+        // if(file == null) System.out.println("Something's in the way");
+        // addNameMap(file, action);
+        // addDateMap(file, action);
     }
+    // private void addNameMap(FileData file, int action){
+    //     switch(action) {
+    //         case 1:
+    //             // replace old
+    //             // System.out.format("Replaced current value for %s in nameMap with %s.\n", file.name, file.toString());
+    //             nameTree.replace(file.name, file);
+    //             break;
+    //         case 0:
+    //             // add new
+    //             // System.out.format("Put %s in nameMap\n", file.name);
+    //             nameTree.put(file.name, file);
+    //             break;
+    //         // case 2:
+    //         default:
+    //             // indecision
+    //             // System.out.format("Chose not to add %s to nameMap.\n", file.name);
+    //             break;
+    //     }
+    // }
+    // private void addDateMap(FileData file, int action){
+    //     ArrayList<FileData> dateList; // 
+    //     FileData oldFile;
+    //     switch(action) {
+    //         case 1:
+    //             System.out.format("Addition case 1 for file %s", file.toString());
+    //             oldFile = nameTree.get(file.name);
+    //             ArrayList<FileData> oldDateList = dateTree.get(oldFile.lastModifiedDate);
+    //             dateList = dateTree.get(file.lastModifiedDate);
+    //             // System.out.format("\n\n\n[[[[[[[[[[[[[[[[[CASE 1]]]]]]]]]]]]]]]]]\n\n\n");
+    //             // find old
+    //             for (int i = 0; i < oldDateList.size(); i++) {
+    //                 // if found, replace old
+    //                 if (dateList.get(i).name.equals(file.name)) {
+    //                     dateList.remove(i);
+    //                     break;
+    //                 }
+    //             }
+    //             dateList.add(oldFile);
+    //             dateTree.set(file.lastModifiedDate, dateList);
+    //             System.out.format("Replaced current value for %s in dateMap with %s\n", file.lastModifiedDate, file.toString());
+    //             break;
+    //         case 0:
+    //             // add new ArrayList for the specific date, with only 1 file
+    //             if(dateTree.get(file.lastModifiedDate) == null){
+    //                 System.out.println("Path 1");
+    //                 dateList = new ArrayList<FileData>();           
+    //                 dateList.add(file);
+    //                 dateTree.put(file.lastModifiedDate, dateList);
+    //             }
+    //             else {
+    //                 System.out.println("Path 2");
+    //                 dateList = dateTree.get(file.lastModifiedDate);
+    //                 dateList.add(file);
+    //                 dateTree.set(file.lastModifiedDate, dateList);
+    //             }
+    //             System.out.format("Put %s in dateMap\n", file.lastModifiedDate);
+    //             break;
+    //         // case 2:
+    //         default:
+    //             // indecision
+    //             System.out.format("Chose not to add %s to dateMap.\n", file.lastModifiedDate);
+    //             break;
+    //     }
+    // }
+    // private int decideAction(String name, String dir, String date){
+    //     /* This function gives 0 if the name is different, 1 if the date is different, 2 otherwise.
+    //      * Likely should be renamed as a function
+    //      * According to the truth table in the writeup:
+    //      * Add if the name is different, no matter what.
+    //      * Replace if name is the same, but date is different. 
+    //      * (This means you have to remove from one ArrayList and add to another in dateMap.)
+    //      * Do nothing if only directory changes. I don't understand the logic.
+    //      */
+    //     if(name == null || dir == null || date == null){
+    //         return 2;
+    //     }
+    //     FileData fileInSystem = nameTree.get(name);
+    //     // true if no prior value
+    //     if(fileInSystem == null){
+    //         return 0;
+    //     }
+
+    //     if(!name.equals(fileInSystem.name)){ 
+    //         return 0;
+    //     }
+    //     if(!date.equals(fileInSystem.lastModifiedDate)){
+    //         return 1;
+    //     }
+
+    //     // no conditions pass = do nothing
+    //     else {
+    //         return 2;
+    //     }
+    // }
     // private boolean shouldReplaceDatelist(String name, String dir, String date){
 
     // }
