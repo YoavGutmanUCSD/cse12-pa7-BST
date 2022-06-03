@@ -114,7 +114,7 @@ public class BSTTest {
  
         System.out.println("\n50");
         testMap.remove(50);
-        //System.out.println(testMap.keys());
+        System.out.println(testMap.keys());
     }
 
     @Test

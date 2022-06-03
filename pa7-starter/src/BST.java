@@ -116,7 +116,7 @@ public class BST<K extends Comparable<? super K>, V> implements DefaultMap<K, V>
 
 
     // find the smallest key in the right (used in the next method)
-    private K biggestInTheLeft(Node<K,V> leftTree) {
+    private Node<K,V> biggestInTheLeft(Node<K,V> leftTree) {
         if (leftTree == null) {
             return null;
         }
@@ -126,11 +126,11 @@ public class BST<K extends Comparable<? super K>, V> implements DefaultMap<K, V>
             leftTree = leftTree.right;
         }
 
-        return compareSmallestKey;
+        return leftTree;
     }
 
     // find the smallest key in the right (used in the next method)
-    private K smallestInTheRight(Node<K,V> rightTree) {
+    private Node<K,V> smallestInTheRight(Node<K,V> rightTree) {
         if (rightTree == null) {
             return null;
         }
@@ -140,7 +140,7 @@ public class BST<K extends Comparable<? super K>, V> implements DefaultMap<K, V>
             rightTree = rightTree.left;
         }
 
-        return compareSmallestKey;
+        return rightTree;
     }
 
     // moving through the tree and deleting values
@@ -172,16 +172,26 @@ public class BST<K extends Comparable<? super K>, V> implements DefaultMap<K, V>
             // they're the smallest in the right tree (nodeToCompare.right)
             Node<K,V> leftTree = nodeToCompare.left;
             Node<K,V> rightTree = nodeToCompare.right;
-            K newKeyLeft = biggestInTheLeft(leftTree);
-            K newKeyRight = smallestInTheRight(rightTree);
 
-            // changing its key to the smallest key
-            nodeToCompare.key = newKeyLeft;
+            if(nodeToCompare.left != null){
+                // changing its key to the smallest key
+                Node<K,V> newKeyLeft = biggestInTheLeft(leftTree);
+                nodeToCompare = newKeyLeft;
+            }
+
+            // our key to remove has no left child, but a right child
+            // replace our key's node with the smallest node in this right subtree
+            else if (nodeToCompare.right != null){
+                // changing its key to the smallest key
+                Node<K,V> newKeyRight = smallestInTheRight(rightTree);
+                nodeToCompare = newKeyRight;
+            }
+
 
             // delete the previous stuff (idk if this works)
             nodeToCompare.right = moveAndDelete(nodeToCompare.left, nodeToCompare.key);
             nodeToCompare.left = moveAndDelete(nodeToCompare.left, nodeToCompare.key);
-        }
+    }
         // nodeToCompare.right = null;
         // nodeToCompare.left = null;
         return nodeToCompare;
@@ -197,23 +207,24 @@ public class BST<K extends Comparable<? super K>, V> implements DefaultMap<K, V>
             throw new IllegalArgumentException("Key cannot be null.");
         }
 
+        try {
+                if(this.root != moveAndDelete(this.root, key)) {
 
-        if(this.root != moveAndDelete(this.root, key)) {
+                    this.root = moveAndDelete(this.root, key);
 
-            this.root = moveAndDelete(this.root, key);
+                    size = keys().size();
 
-            size = keys().size();
-
-            return true;
-        }
-
-
-        this.root = moveAndDelete(this.root, key);
-
-        size = keys().size();
+                    return true;
+                }
 
 
-        return false;
+                this.root = moveAndDelete(this.root, key);
+
+                size = keys().size();
+
+
+                return false;
+        }  catch (Exception e) {size--; return false;}
     }
 
 
@@ -354,3 +365,4 @@ public class BST<K extends Comparable<? super K>, V> implements DefaultMap<K, V>
     }
 
 }
+
