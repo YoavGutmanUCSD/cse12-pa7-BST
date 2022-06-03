@@ -169,12 +169,23 @@ public class FileSystem {
         String currentDate;
         int[] endDateInt = parseDate(endDate);
         int[] currentDateInt = parseDate(startDate);
-        while(!currentDateInt.equals(endDateInt)){
+
+        while(!generateDateString(currentDateInt).equals(endDate)){
+
+            if(currentDateInt.equals(parseDate("2025-01-01"))){
+                System.out.println("You still have an infinite loop 4head");
+                break;
+            }
+
+
+            System.out.println(generateDateString(currentDateInt));
             currentDate = generateDateString(currentDateInt);
             ArrayList<FileData> allFilesOnDate = dateTree.get(currentDate);
-            for(int i = 0; i < allFilesOnDate.size(); i++){
-                FileData currentData = allFilesOnDate.get(i);
-                newFileSystem.add(currentData.name, currentData.dir, currentData.lastModifiedDate);
+            if(allFilesOnDate != null) {
+                for(int i = 0; i < allFilesOnDate.size(); i++){
+                    FileData currentData = allFilesOnDate.get(i);
+                    newFileSystem.add(currentData.name, currentData.dir, currentData.lastModifiedDate);
+                }
             }
             currentDateInt = incrementParsedDate(currentDateInt);
         }
@@ -183,7 +194,7 @@ public class FileSystem {
 
     // convert a string in format YYYY-MM-DD into an int array like [YYYY, MM, DD]
     private int[] parseDate(String date){
-        String[] dateSplit = date.split("/");
+        String[] dateSplit = date.split("-");
         int[] year_month_day = new int[3];
         for(int i = 0; i < year_month_day.length; i++){
             year_month_day[i] = Integer.valueOf(dateSplit[i]);
@@ -197,7 +208,7 @@ public class FileSystem {
 
     // reverse parseDate
     private String generateDateString(int[] dateInfo){
-        return String.format("%s/%s/%s", dateInfo[0], dateInfo[1], dateInfo[2]);
+        return String.format("%s-%s-%s", dateInfo[0], dateInfo[1], dateInfo[2]);
     }
 
     // increment date. more involved than you might think.
