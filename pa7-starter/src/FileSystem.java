@@ -59,8 +59,8 @@ public class FileSystem {
             if(fileByDate == null){
                 ArrayList<FileData> fileArrayToAdd = new ArrayList<FileData>();
                 fileArrayToAdd.add(fileToAdd);
-                // System.out.println(date);
-                //dateTree.put(date, fileArrayToAdd);
+                System.out.println(date);
+                dateTree.put(date, fileArrayToAdd);
                 return;
             }
             fileByDate.add(fileToAdd);
@@ -72,7 +72,7 @@ public class FileSystem {
             if(fileByDate == null){
                 ArrayList<FileData> fileArrayToAdd = new ArrayList<FileData>();
                 fileArrayToAdd.add(fileToAdd);
-                //dateTree.put(date, fileArrayToAdd);
+                dateTree.put(date, fileArrayToAdd);
                 return;
             }
             fileByDate.add(fileToAdd);
@@ -203,14 +203,14 @@ public class FileSystem {
 
     // TODO test
     public ArrayList<String> findFileNamesByDate(String date) {
-        return null;
-        // if(date == null) return null;
-        // ArrayList<String> dateNameList = new ArrayList<String>();
-        // ArrayList<FileData> dateFileDataList = dateTree.get(date);
-        // for(int i = 0; i < dateFileDataList.size(); i++){
-        //     dateNameList.add(dateFileDataList.get(i).name);
-        // }
-        // return dateNameList;
+        //return null;
+        if(date == null) return null;
+        ArrayList<String> dateNameList = new ArrayList<String>();
+        ArrayList<FileData> dateFileDataList = dateTree.get(date);
+        for(int i = 0; i < dateFileDataList.size(); i++){
+            dateNameList.add(dateFileDataList.get(i).name);
+        }
+        return dateNameList;
     }
 
 
