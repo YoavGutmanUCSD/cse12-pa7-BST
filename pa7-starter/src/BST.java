@@ -116,14 +116,28 @@ public class BST<K extends Comparable<? super K>, V> implements DefaultMap<K, V>
 
 
     // find the smallest key in the right (used in the next method)
+    private K biggestInTheLeft(Node<K,V> leftTree) {
+        if (leftTree == null) {
+            return null;
+        }
+        K compareSmallestKey = leftTree.key;
+        while (leftTree.right != null) {
+            compareSmallestKey = leftTree.right.key;
+            leftTree = leftTree.right;
+        }
+
+        return compareSmallestKey;
+    }
+
+    // find the smallest key in the right (used in the next method)
     private K smallestInTheRight(Node<K,V> rightTree) {
         if (rightTree == null) {
             return null;
         }
         K compareSmallestKey = rightTree.key;
-        while (rightTree.right != null) {
-            compareSmallestKey = rightTree.right.key;
-            rightTree = rightTree.right;
+        while (rightTree.left != null) {
+            compareSmallestKey = rightTree.left.key;
+            rightTree = rightTree.left;
         }
 
         return compareSmallestKey;
@@ -141,10 +155,10 @@ public class BST<K extends Comparable<? super K>, V> implements DefaultMap<K, V>
         // int comp = comparator.compare(nodeToCompare.key, key);
         int comp = key.compareTo(nodeToCompare.key);
 
-        if (comp > 0) {
+        if (comp < 0) {
             nodeToCompare.right = this.moveAndDelete(nodeToCompare.right, key);
 
-        } else if (comp < 0) {
+        } else if (comp > 0) {
             nodeToCompare.left = this.moveAndDelete(nodeToCompare.left, key);
         } 
 
@@ -155,15 +169,17 @@ public class BST<K extends Comparable<? super K>, V> implements DefaultMap<K, V>
             if(nodeToCompare.left == null) {return nodeToCompare.right;}
 
             // you're not a leaf node? you have TWO children? that complicates things...
-            // since your end is near you need a successor. 
             // they're the smallest in the right tree (nodeToCompare.right)
             Node<K,V> leftTree = nodeToCompare.left;
-            K newKey = smallestInTheRight(leftTree);
+            Node<K,V> rightTree = nodeToCompare.right;
+            K newKeyLeft = biggestInTheLeft(leftTree);
+            K newKeyRight = smallestInTheRight(rightTree);
 
             // changing its key to the smallest key
-            nodeToCompare.key = newKey;
+            nodeToCompare.key = newKeyLeft;
 
-            // delete the previous stuff
+            // delete the previous stuff (idk if this works)
+            nodeToCompare.right = moveAndDelete(nodeToCompare.left, nodeToCompare.key);
             nodeToCompare.left = moveAndDelete(nodeToCompare.left, nodeToCompare.key);
         }
         // nodeToCompare.right = null;
@@ -181,15 +197,21 @@ public class BST<K extends Comparable<? super K>, V> implements DefaultMap<K, V>
             throw new IllegalArgumentException("Key cannot be null.");
         }
 
+
         if(this.root != moveAndDelete(this.root, key)) {
+
             this.root = moveAndDelete(this.root, key);
+
             size = keys().size();
 
             return true;
         }
 
+
         this.root = moveAndDelete(this.root, key);
+
         size = keys().size();
+
 
         return false;
     }
@@ -240,21 +262,11 @@ public class BST<K extends Comparable<? super K>, V> implements DefaultMap<K, V>
 
     private Node get(Node start, K key){
         if(key == null || start == null) { return null; }
-        System.out.format("key: %s, start key: %s\n", key, start.getKey());
-        int compareResult = key.compareTo((K) start.getKey());
-        if(compareResult == 0) {
-            return start; 
-        }
-        if(compareResult > 0) {
-            return get(start.left, key);
-        }
-        if(compareResult < 0) {
-            return get(start.right, key);
-        }
-        // Node leftMost = get(start.left, key);
-        // Node rightMost = get(start.left, key);
-        // if(leftMost != null) { return leftMost; }
-        // if(rightMost != null) { return rightMost; }
+        if(start.getKey().equals(key)) { return start; }
+        Node leftMost = get(start.left, key);
+        Node rightMost = get(start.left, key);
+        if(leftMost != null) { return leftMost; }
+        if(rightMost != null) { return rightMost; }
         return null;
     }
 
@@ -274,6 +286,7 @@ public class BST<K extends Comparable<? super K>, V> implements DefaultMap<K, V>
     @Override
     public int size() {
         return size;
+        //return -1000;
     }
 
     @Override

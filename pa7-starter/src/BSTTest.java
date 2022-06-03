@@ -169,11 +169,11 @@ public class BSTTest {
         20   40  60   80 */
         testMap.put(50, null);
         testMap.put(70, 3);
-        testMap.put(60, 3);
+        //testMap.put(60, 3);
         testMap.put(80, 3);
  
         //System.out.println("\n50");
-        //testMap.remove(70);
+        testMap.remove(70);
         System.out.println(testMap.size());
         System.out.println(testMap.keys());
     }
