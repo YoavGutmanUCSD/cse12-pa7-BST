@@ -93,6 +93,15 @@ public class FileSystemTest {
         // assertArrayEquals(dateTreeOut, dateTreeExpected);
         assertArrayEquals(dateTreeOut, dateTreeExpected);
     }
+    @Test 
+    public void testAddDuplicates() {
+        fileSys.add(".secrets-upon-secrets", "/home", "2022-04-20");
+        fileSys.add(".secrets-upon-secrets", "/home", "2022-04-20");
+        fileSys.add("break_your_pc.sh", "/root", "2022-05-24");
+        List<String> dt = this.fileSys.outputDateTree();
+        System.out.println(dt.toString());
+        assertEquals(dt.size(), 2);
+    }
     private String genEntry(String key, FileData file){
         return String.format("%s: %s", key, file.toString());
     }
