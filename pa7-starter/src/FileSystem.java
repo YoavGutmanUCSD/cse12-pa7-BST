@@ -44,9 +44,6 @@ public class FileSystem {
 
     // TODO test
     public void add(String name, String dir, String date) {
-        // add FileData object to both maps depending on what decideAction returns
-        // boolean containsName = nameTree.keys().contains(name);
-        // boolean containsDate = dateTree.keys().contains(date);
         if (name == null || dir == null || date == null){
             return;
         }
@@ -54,8 +51,7 @@ public class FileSystem {
         FileData fileByName = nameTree.get(name);
         FileData fileToAdd = new FileData(name, dir, date);
         ArrayList<FileData> fileByDate = dateTree.get(date);
-        // List<FileData> newFileByDate = dateTree.get(date);
-        // List<FileData> oldFileByDate = dateTree.get(fileByName.date);
+
 
         // name diffs
         if(fileByName == null){
@@ -63,7 +59,7 @@ public class FileSystem {
             if(fileByDate == null){
                 ArrayList<FileData> fileArrayToAdd = new ArrayList<FileData>();
                 fileArrayToAdd.add(fileToAdd);
-                dateTree.put(date, fileArrayToAdd);
+                //dateTree.put(date, fileArrayToAdd);
                 return;
             }
             fileByDate.add(fileToAdd);
@@ -74,25 +70,13 @@ public class FileSystem {
             if(fileByDate == null){
                 ArrayList<FileData> fileArrayToAdd = new ArrayList<FileData>();
                 fileArrayToAdd.add(fileToAdd);
-                dateTree.put(date, fileArrayToAdd);
+                //dateTree.put(date, fileArrayToAdd);
                 return;
             }
             fileByDate.add(fileToAdd);
             dateTree.set(date, fileByDate);
         }
 
-        // else {
-        //     return;
-        // }
-        // int action = decideAction(name, dir, date);
-        // FileData file = new FileData(name, dir, date);
-        // if(action == 2) {
-        //     // System.out.format("Addition case 2 for ");
-        //     return;
-        // }
-        // if(file == null) System.out.println("Something's in the way");
-        // addNameMap(file, action);
-        // addDateMap(file, action);
     }
     // private void addDateMap(FileData fileToAdd, String oldDate){
     //     ArrayList<FileData> fileByDate = dateTree.get(oldDate);
