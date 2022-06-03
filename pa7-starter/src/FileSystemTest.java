@@ -66,7 +66,7 @@ public class FileSystemTest {
         fileSys.add("Copium King-sized", "/home", "2022-04-21");
         fileSys.add("Stalinium King-sized", "/home", "2022-04-21");
         fileSys.add("Unobtainium King-sized", "/home", "2022-04-21");
-        fileSys.add("break_your_pc", "/root", "2022-05-24");
+        fileSys.add("break_your_pc.sh", "/root", "2022-05-24");
         fileSys.add("break_your_electrical_budget.sh", "/root", "2022-05-24");
         fileSys.add("break_your_morale.sh", "/root", "2022-05-24");
         fileSys.add("break_your_willpower.sh", "/root", "2022-05-24");
