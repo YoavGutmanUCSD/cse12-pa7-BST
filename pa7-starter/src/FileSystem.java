@@ -90,6 +90,18 @@ public class FileSystem {
         // addNameMap(file, action);
         // addDateMap(file, action);
     }
+    // private void addDateMap(FileData fileToAdd, String oldDate){
+    //     ArrayList<FileData> fileByDate = dateTree.get(oldDate);
+    //     if(fileByDate == null){
+    //         ArrayList<FileData> fileArrayToAdd = new ArrayList<FileData>();
+    //         fileArrayToAdd.add(fileToAdd);
+    //         dateTree.put(oldDate, fileArrayToAdd);
+    //         return;
+    //     }
+    //     fileByDate.add(fileToAdd);
+    //     dateTree.set(oldDate, fileByDate);
+    // }
+    
     // private void addNameMap(FileData file, int action){
     //     switch(action) {
     //         case 1:
@@ -201,43 +213,45 @@ public class FileSystem {
 
     // TODO test
     public ArrayList<String> findFileNamesByDate(String date) {
-        if(date == null) return null;
-        ArrayList<String> dateNameList = new ArrayList<String>();
-        ArrayList<FileData> dateFileDataList = dateTree.get(date);
-        for(int i = 0; i < dateFileDataList.size(); i++){
-            dateNameList.add(dateFileDataList.get(i).name);
-        }
-        return dateNameList;
+        return null;
+        // if(date == null) return null;
+        // ArrayList<String> dateNameList = new ArrayList<String>();
+        // ArrayList<FileData> dateFileDataList = dateTree.get(date);
+        // for(int i = 0; i < dateFileDataList.size(); i++){
+        //     dateNameList.add(dateFileDataList.get(i).name);
+        // }
+        // return dateNameList;
     }
 
 
     // TODO
     public FileSystem filter(String startDate, String endDate) {
-        FileSystem newFileSystem = new FileSystem();
-        String currentDate;
-        int[] endDateInt = parseDate(endDate);
-        int[] currentDateInt = parseDate(startDate);
+        return null;
+        // FileSystem newFileSystem = new FileSystem();
+        // String currentDate;
+        // int[] endDateInt = parseDate(endDate);
+        // int[] currentDateInt = parseDate(startDate);
 
-        while(!generateDateString(currentDateInt).equals(endDate)){
+        // while(!generateDateString(currentDateInt).equals(endDate)){
 
-            if(currentDateInt.equals(parseDate("2025-01-01"))){
-                System.out.println("You still have an infinite loop 4head");
-                break;
-            }
+        //     if(currentDateInt.equals(parseDate("2025-01-01"))){
+        //         System.out.println("You still have an infinite loop 4head");
+        //         break;
+        //     }
 
 
-            System.out.println(generateDateString(currentDateInt));
-            currentDate = generateDateString(currentDateInt);
-            ArrayList<FileData> allFilesOnDate = dateTree.get(currentDate);
-            if(allFilesOnDate != null) {
-                for(int i = 0; i < allFilesOnDate.size(); i++){
-                    FileData currentData = allFilesOnDate.get(i);
-                    newFileSystem.add(currentData.name, currentData.dir, currentData.lastModifiedDate);
-                }
-            }
-            currentDateInt = incrementParsedDate(currentDateInt);
-        }
-        return newFileSystem;
+        //     System.out.println(generateDateString(currentDateInt));
+        //     currentDate = generateDateString(currentDateInt);
+        //     ArrayList<FileData> allFilesOnDate = dateTree.get(currentDate);
+        //     if(allFilesOnDate != null) {
+        //         for(int i = 0; i < allFilesOnDate.size(); i++){
+        //             FileData currentData = allFilesOnDate.get(i);
+        //             newFileSystem.add(currentData.name, currentData.dir, currentData.lastModifiedDate);
+        //         }
+        //     }
+        //     currentDateInt = incrementParsedDate(currentDateInt);
+        // }
+        // return newFileSystem;
     }
 
     // convert a string in format YYYY-MM-DD into an int array like [YYYY, MM, DD]
@@ -312,22 +326,23 @@ public class FileSystem {
 
     // TODO
     public FileSystem filter(String wildCard) {
-        FileSystem newFileSystem = new FileSystem();
-        List<String> datesToExamine = new LinkedList<String>();
-        for(String date: dateTree.keys()){
-            if(date.contains(wildCard)){
-                datesToExamine.add(date);
-            }
-        }
-        for(String date: datesToExamine){
-            List<FileData> filesAtDate = dateTree.get(date);
-            for(FileData file: filesAtDate){
-                newFileSystem.add(file.name, file.dir, file.lastModifiedDate);
-            }
-        }
-        // int[] endDateInt = parseDate(endDate);
-        // int[] currentDateInt = parseDate(startDate);
-        return newFileSystem;
+        return null;
+        // FileSystem newFileSystem = new FileSystem();
+        // List<String> datesToExamine = new LinkedList<String>();
+        // for(String date: dateTree.keys()){
+        //     if(date.contains(wildCard)){
+        //         datesToExamine.add(date);
+        //     }
+        // }
+        // for(String date: datesToExamine){
+        //     List<FileData> filesAtDate = dateTree.get(date);
+        //     for(FileData file: filesAtDate){
+        //         newFileSystem.add(file.name, file.dir, file.lastModifiedDate);
+        //     }
+        // }
+        // // int[] endDateInt = parseDate(endDate);
+        // // int[] currentDateInt = parseDate(startDate);
+        // return newFileSystem;
     }
 
 
