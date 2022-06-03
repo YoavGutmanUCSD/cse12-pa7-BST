@@ -52,7 +52,6 @@ public class FileSystem {
         FileData fileToAdd = new FileData(name, dir, date);
         ArrayList<FileData> fileByDate = dateTree.get(date);
 
-
         // name diffs
         if(fileByName == null){
             nameTree.put(name, fileToAdd);
@@ -77,7 +76,13 @@ public class FileSystem {
             }
             fileByDate.add(fileToAdd);
             dateTree.set(date, fileByDate);
+            return;
         }
+        else if(fileToAdd.name.equals(fileByName.name) & fileToAdd.lastModifiedDate.equals(fileByName.lastModifiedDate)){
+            System.out.format("%s equals %s\n", fileByName.toString(), fileToAdd.toString());
+            return;
+        }
+
 
     }
     // private void addDateMap(FileData fileToAdd, String oldDate){
@@ -203,7 +208,7 @@ public class FileSystem {
 
     // TODO test
     public ArrayList<String> findFileNamesByDate(String date) {
-        //return null;
+        // return null;
         if(date == null) return null;
         ArrayList<String> dateNameList = new ArrayList<String>();
         ArrayList<FileData> dateFileDataList = dateTree.get(date);
@@ -228,8 +233,6 @@ public class FileSystem {
                 System.out.println("You still have an infinite loop 4head");
                 break;
             }
-
-
             System.out.println(generateDateString(currentDateInt));
             currentDate = generateDateString(currentDateInt);
             ArrayList<FileData> allFilesOnDate = dateTree.get(currentDate);
