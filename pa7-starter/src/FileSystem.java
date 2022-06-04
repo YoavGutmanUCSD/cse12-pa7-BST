@@ -1,3 +1,4 @@
+
 import java.util.List;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -63,7 +64,7 @@ public class FileSystem {
                 return;
             }
             fileByDate.add(fileToAdd);
-            dateTree.set(date, fileByDate);
+            dateTree.replace(date, fileByDate);
             // System.out.println(dateTree.get(date));
         }
         else if (!fileByName.lastModifiedDate.equals(fileToAdd.lastModifiedDate)) {
@@ -71,16 +72,26 @@ public class FileSystem {
             if(fileByDate == null){
                 ArrayList<FileData> fileArrayToAdd = new ArrayList<FileData>();
                 fileArrayToAdd.add(fileToAdd);
+
+                ArrayList<FileData> stuff = dateTree.get(fileByName.lastModifiedDate);
+
+                for(int i = 0; i < stuff.size(); i++) {
+                    if(stuff.get(i).name.equals(name)) {
+                        stuff.remove(i);
+                    }
+                }
+
+                dateTree.replace(fileByName.lastModifiedDate, stuff);
+
                 dateTree.put(date, fileArrayToAdd);
                 return;
             }
             fileByDate.add(fileToAdd);
-            dateTree.set(date, fileByDate);
+            dateTree.replace(date, fileByDate);
             return;
         }
-        else if(fileToAdd.name.equals(fileByName.name) & fileToAdd.lastModifiedDate.equals(fileByName.lastModifiedDate)){
-            System.out.format("%s equals %s\n", fileByName.toString(), fileToAdd.toString());
-            return;
+        else {
+            
         }
 
 
@@ -357,11 +368,13 @@ public class FileSystem {
             //System.out.format("i is %s\n", i);
             String key = allDates.get(i);
             ArrayList<FileData> allFiles = dateTree.get(key);
+            if(allFiles != null) {
             for(int j = 0; j < allFiles.size(); j++){
                 // System.out.format("i is %s\n", i);
                 String entry = genEntry(key, allFiles.get(j));
                 returnable.add(entry);
             }
+        }
         }
         return returnable;
     }
@@ -371,4 +384,3 @@ public class FileSystem {
 
 
 }
-

@@ -96,12 +96,31 @@ public class FileSystemTest {
     @Test 
     public void testAddDuplicates() {
         fileSys.add(".secrets-upon-secrets", "/home", "2022-04-20");
-        fileSys.add(".secrets-upon-secrets", "/home", "2022-04-20");
+        fileSys.add(".secrets-upon-secretsz", "/home", "2022-04-20");
         fileSys.add("break_your_pc.sh", "/root", "2022-05-24");
+        // fileSys.add("break_your_pc.sh", "/root", "2022-05-25");
+        // fileSys.add("break_your_pc.sh", "/root", "2022-05-27");
+        // fileSys.add("break_your_pc.sh", "/root", "2022-05-26");
         List<String> dt = this.fileSys.outputDateTree();
         System.out.println(dt.toString());
         assertEquals(dt.size(), 2);
     }
+
+    @Test 
+    public void addingStuff() {
+        fileSys.add(".secrets-upon-secrets", "/home", "2022-01-01");
+        fileSys.add(".secrets-upon-secrets", "/home", "2022-01-02");
+        fileSys.add(".secrets-upon-secrets", "/home", "2022-01-03");
+
+        // fileSys.add("break_your_pc.sh", "/root", "2022-05-25");
+        // fileSys.add("break_your_pc.sh", "/root", "2022-05-27");
+        // fileSys.add("break_your_pc.sh", "/root", "2022-05-26");
+        List<String> dt = this.fileSys.outputDateTree();
+        System.out.println(dt.toString());
+        //assertEquals(dt.size(), 2);
+    }
+
+
     private String genEntry(String key, FileData file){
         return String.format("%s: %s", key, file.toString());
     }
