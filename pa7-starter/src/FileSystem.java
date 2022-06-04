@@ -1,25 +1,26 @@
-import java.util.List;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.Comparator;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Scanner;
 
-
+// This class intends to implement a filesystem.
+// However, it does not do it well.
+// ..
 public class FileSystem {
 
     BST<String, FileData> nameTree;
     BST<String, ArrayList<FileData>> dateTree;
 
-    // TODO
+    // Default constructor that creates a new FileSystem object and initializes its instance variable.
     public FileSystem() {
         this.nameTree = new BST<String, FileData>();
         this.dateTree = new BST<String, ArrayList<FileData>>();
     }
 
 
-    // TODO
+    //Constructor that creates a new FileSystem object with the given inputFile that contains the file system information
     public FileSystem(String inputFile) {
         // Add your code here
         this.nameTree = new BST<String, FileData>();
@@ -42,7 +43,9 @@ public class FileSystem {
         }
     }
 
-    // TODO test
+    // This method should create a FileData object with the given file information and 
+    // add it to the instance variables of FileSystem. 
+    // If there is a duplicate file name, then the FileData with the most recent date should be used. 
     public void add(String name, String dir, String date) {
         if (name == null || dir == null || date == null){
             return;
@@ -136,129 +139,9 @@ public class FileSystem {
 
 
 
-
-    // private void addDateMap(FileData fileToAdd, String oldDate){
-    //     ArrayList<FileData> fileByDate = dateTree.get(oldDate);
-    //     if(fileByDate == null){
-    //         ArrayList<FileData> fileArrayToAdd = new ArrayList<FileData>();
-    //         fileArrayToAdd.add(fileToAdd);
-    //         dateTree.put(oldDate, fileArrayToAdd);
-    //         return;
-    //     }
-    //     fileByDate.add(fileToAdd);
-    //     dateTree.set(oldDate, fileByDate);
-    // }
-    
-    // private void addNameMap(FileData file, int action){
-    //     switch(action) {
-    //         case 1:
-    //             // replace old
-    //             // System.out.format("Replaced current value for %s in nameMap with %s.\n", file.name, file.toString());
-    //             nameTree.replace(file.name, file);
-    //             break;
-    //         case 0:
-    //             // add new
-    //             // System.out.format("Put %s in nameMap\n", file.name);
-    //             nameTree.put(file.name, file);
-    //             break;
-    //         // case 2:
-    //         default:
-    //             // indecision
-    //             // System.out.format("Chose not to add %s to nameMap.\n", file.name);
-    //             break;
-    //     }
-    // }
-    // private void addDateMap(FileData file, int action){
-    //     ArrayList<FileData> dateList; // 
-    //     FileData oldFile;
-    //     switch(action) {
-    //         case 1:
-    //             System.out.format("Addition case 1 for file %s", file.toString());
-    //             oldFile = nameTree.get(file.name);
-    //             ArrayList<FileData> oldDateList = dateTree.get(oldFile.lastModifiedDate);
-    //             dateList = dateTree.get(file.lastModifiedDate);
-    //             // System.out.format("\n\n\n[[[[[[[[[[[[[[[[[CASE 1]]]]]]]]]]]]]]]]]\n\n\n");
-    //             // find old
-    //             for (int i = 0; i < oldDateList.size(); i++) {
-    //                 // if found, replace old
-    //                 if (dateList.get(i).name.equals(file.name)) {
-    //                     dateList.remove(i);
-    //                     break;
-    //                 }
-    //             }
-    //             dateList.add(oldFile);
-    //             dateTree.set(file.lastModifiedDate, dateList);
-    //             System.out.format("Replaced current value for %s in dateMap with %s\n", file.lastModifiedDate, file.toString());
-    //             break;
-    //         case 0:
-    //             // add new ArrayList for the specific date, with only 1 file
-    //             if(dateTree.get(file.lastModifiedDate) == null){
-    //                 System.out.println("Path 1");
-    //                 dateList = new ArrayList<FileData>();           
-    //                 dateList.add(file);
-    //                 dateTree.put(file.lastModifiedDate, dateList);
-    //             }
-    //             else {
-    //                 System.out.println("Path 2");
-    //                 dateList = dateTree.get(file.lastModifiedDate);
-    //                 dateList.add(file);
-    //                 dateTree.set(file.lastModifiedDate, dateList);
-    //             }
-    //             System.out.format("Put %s in dateMap\n", file.lastModifiedDate);
-    //             break;
-    //         // case 2:
-    //         default:
-    //             // indecision
-    //             System.out.format("Chose not to add %s to dateMap.\n", file.lastModifiedDate);
-    //             break;
-    //     }
-    // }
-    // private int decideAction(String name, String dir, String date){
-    //     /* This function gives 0 if the name is different, 1 if the date is different, 2 otherwise.
-    //      * Likely should be renamed as a function
-    //      * According to the truth table in the writeup:
-    //      * Add if the name is different, no matter what.
-    //      * Replace if name is the same, but date is different. 
-    //      * (This means you have to remove from one ArrayList and add to another in dateMap.)
-    //      * Do nothing if only directory changes. I don't understand the logic.
-    //      */
-    //     if(name == null || dir == null || date == null){
-    //         return 2;
-    //     }
-    //     FileData fileInSystem = nameTree.get(name);
-    //     // true if no prior value
-    //     if(fileInSystem == null){
-    //         return 0;
-    //     }
-
-    //     if(!name.equals(fileInSystem.name)){ 
-    //         return 0;
-    //     }
-    //     if(!date.equals(fileInSystem.lastModifiedDate)){
-    //         return 1;
-    //     }
-
-    //     // no conditions pass = do nothing
-    //     else {
-    //         return 2;
-    //     }
-    // }
-    // private boolean shouldReplaceDatelist(String name, String dir, String date){
-
-    // }
-    // private boolean shouldAdd(String name, String dir, String date){
-    //     if(name == null || dir == null || date == null){
-    //         return false;
-    //     }
-    //     FileData fileInSystem = nameTree.get(name);
-    //     if(fileInSystem == null){
-    //         return true;
-    //     }
-    //     return false;
-    // }
-
-
-    // TODO test
+    // Given a date (format: yyyy/mm/dd), return an ArrayList of file names that correspond to this date. 
+    //This list should have the file names in the order that they were added.
+    // If the date given is null, return null.
     public ArrayList<String> findFileNamesByDate(String date) {
         // return null;
         if(date == null) return null;
@@ -271,7 +154,9 @@ public class FileSystem {
     }
 
 
-    // TODO
+    // Given a startDate and an endDate (format: yyyy/mm/dd), 
+    // return a new FileSystem that contains only the files that are within the range 
+    // (startDate is inclusive, endDate is exclusive).
     public FileSystem filter(String startDate, String endDate) {
         // return null;
         FileSystem newFileSystem = new FileSystem();
@@ -286,7 +171,9 @@ public class FileSystem {
             if(allFilesOnDate != null) {
                 for(int i = 0; i < allFilesOnDate.size(); i++){
                     FileData currentData = allFilesOnDate.get(i);
-                    newFileSystem.add(currentData.name, currentData.dir, currentData.lastModifiedDate);
+                    newFileSystem.add(
+                        currentData.name, currentData.dir, currentData.lastModifiedDate
+                        );
                 }
             }
             currentDateInt = incrementParsedDate(currentDateInt);
@@ -308,7 +195,8 @@ public class FileSystem {
         return String.format("%s/%s/%s", year, month, day);
     }
 
-    // reverse parseDate
+    // reverses parseDate
+    // takes an int array [YYYY, MM, DD] and turns it into YYYY-MM-DD 
     private String generateDateString(int[] dateInfo){
         // if month is a value under 10, add a 0 so it's 0x instead of x.
         if(dateInfo[1] < 10){
@@ -318,6 +206,7 @@ public class FileSystem {
     }
 
     // increment date. more involved than you might think.
+    // increments month, day, date, according to the.. calendar
     private int[] incrementParsedDate(int[] parsedDate){
         int[] newDate;
         int year = parsedDate[0];
@@ -350,21 +239,13 @@ public class FileSystem {
         }
         return 30;
     }
-    // // you can use this to account for leap years, but then you'd need to add another argument to daysInMonth
-    // private int februaryAccounting(int year){
-    //     if(leapYear(year)){
-    //         return 29;
-    //     }
-    //     return 28;
-    // }
-    // // this is the algorithm for determining a leap year.
-    // private boolean leapYear(int year){
-    //     if(year % 100 == 0)
-    //         return year % 400 == 0;
-    //     return year % 4 == 0;
-    // }
 
-    // TODO
+
+    // Give a string wildCard, return a new FileSystem that contains only the files with names that 
+    // contain the wildCard string. 
+    // Note that this wildcard can be found anywhere in the file name 
+    // (if the wild card is test, then test.txt, 
+    // thistest.txt and thistest would all be files that should be selected in the filter)
     public FileSystem filter(String wildCard) {
         // return null;
         FileSystem newFileSystem = new FileSystem();
@@ -386,7 +267,8 @@ public class FileSystem {
     }
 
 
-    // TODO
+    // Return a List that contains the name
+    // where each entry is formatted as: ": <FileData toString()>"
     public List<String> outputNameTree(){
         // List<String> returnable = new ArrayList<String>();
         // List<String> allNames = nameTree.keys();
@@ -394,7 +276,8 @@ public class FileSystem {
     }
 
 
-    // TODO
+    // Return a List that contains the datetree
+    //  where each entry is formatted as: ": <FileData toString()>"
     public List<String> outputDateTree(){
         List<String> returnable = new ArrayList<String>();
         List<String> allDates = dateTree.keys();

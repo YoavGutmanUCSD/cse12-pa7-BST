@@ -44,6 +44,9 @@ public class BST<K extends Comparable<? super K>, V> implements DefaultMap<K, V>
 
 
     // Helper method to help the "put" function.. put
+    // this function takes a note to compare and 
+    // both compares and adds.
+    // only adds if the node doesn't exist yet
     private Node<K,V> compareAdd(Node<K,V> nodeToCompare, K key, V value) {
 
         // make a nodeToCompare if it doesn't exist yet
@@ -70,6 +73,13 @@ public class BST<K extends Comparable<? super K>, V> implements DefaultMap<K, V>
 
 
     // Time complexity: O(n)
+	/**
+	 * Adds the specified key, value pair to this DefaultMap
+	 * Note: duplicate keys are not allowed
+	 * 
+	 * @return true if the key value pair was added to this DefaultMap
+	 * @throws IllegalArgumentException if the key is null
+	 */
     @Override
     public boolean put(K key, V value) throws IllegalArgumentException {
         if (key == null) {
@@ -89,6 +99,7 @@ public class BST<K extends Comparable<? super K>, V> implements DefaultMap<K, V>
         return false;
     }
 
+    // goes through the whole tree and finds the node to replace
     private boolean movingInTreeAndReplace(Node<K,V> root, K key, V value) {
         boolean leftReplace = false;
         boolean rightReplace = false;
@@ -106,6 +117,13 @@ public class BST<K extends Comparable<? super K>, V> implements DefaultMap<K, V>
     }
 
     // Time complexity: O(n)
+    /**
+	 * Replaces the value that maps to the key if it is present
+	 * @param key The key whose mapped value is being replaced
+	 * @param newValue The value to replace the existing value with
+	 * @return true if the key was in this DefaultMap
+	 * @throws IllegalArgumentException if the key is null
+	 */
     @Override
     public boolean replace(K key, V newValue) throws IllegalArgumentException {
         // TODO Auto-generated method stub
@@ -146,7 +164,7 @@ public class BST<K extends Comparable<? super K>, V> implements DefaultMap<K, V>
     }
 
 
-
+    //taken from discussion section
 	// For when our key has a left child
 	// Replace our key's node with the smallest node in this left subtree
 	public void replaceNodeWithLeftSubtreeMinimum(Node<K, V> nodeToReplace, Node<K, V> leftChild, Node<K, V> parent){
@@ -215,7 +233,12 @@ public class BST<K extends Comparable<? super K>, V> implements DefaultMap<K, V>
 
 
     // O(n) Time complexity
-    // deletes the specified key
+    /**
+	 * Remove the entry corresponding to the given key
+	 * 
+	 * @return true if an entry for the given key was removed
+	 * @throws IllegalArgumentException if the key is null
+	 */
     @Override
     public boolean remove(K key) throws IllegalArgumentException {
         K keyToRemove = key;
@@ -335,6 +358,11 @@ public class BST<K extends Comparable<? super K>, V> implements DefaultMap<K, V>
     }
 
     @Override
+    /**
+	 * Adds the key, value pair to this DefaultMap if it is not present,
+	 * otherwise, replaces the value with the given value
+	 * @throws IllegalArgumentException if the key is null
+	 */
     public void set(K key, V value) throws IllegalArgumentException {
         if (key == null) {
             throw new IllegalArgumentException("Key cannot be null.");
@@ -362,6 +390,10 @@ public class BST<K extends Comparable<? super K>, V> implements DefaultMap<K, V>
     }
 
     @Override
+	/**
+	 * @return the value corresponding to the specified key
+	 * @throws IllegalArgumentException if the key is null
+	 */
     public V get(K key) throws IllegalArgumentException {
         if(key==null) {
             throw new IllegalArgumentException("Key cannot be null.");
