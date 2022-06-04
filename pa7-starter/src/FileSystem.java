@@ -48,54 +48,95 @@ public class FileSystem {
             return;
         }
 
-        FileData fileByName = nameTree.get(name);
+        // file we wanna add
         FileData fileToAdd = new FileData(name, dir, date);
+
+        // first, check if name is already in nameTree
+        // null if not in nameTree, and a file if in
+        FileData fileByName = nameTree.get(name);  
+
         ArrayList<FileData> fileByDate = dateTree.get(date);
 
-        // name diffs
-        if(fileByName == null){
+        // if the name is not there yet, we always add
+        if(fileByName == null) {
             nameTree.put(name, fileToAdd);
-            if(fileByDate == null){
+
+            // adding to datetree is hard
+            // if there is no date like this, we need to add it anew
+            if(fileByDate == null) {
                 ArrayList<FileData> fileArrayToAdd = new ArrayList<FileData>();
                 fileArrayToAdd.add(fileToAdd);
                 //System.out.println(fileArrayToAdd);
                 dateTree.put(date, fileArrayToAdd);
+                //System.out.println(dateTree.get("2022-04-21"));
                 return;
             }
+            // date already exists? no problem
+            // since it's a different filename, just add
             fileByDate.add(fileToAdd);
             dateTree.replace(date, fileByDate);
-            // System.out.println(dateTree.get(date));
+            return;
         }
+
+        // tricky, filename is already in.
+        // if the date is different and newer, we update
+        // we care about dir here too?
         else if (fileByName.lastModifiedDate.compareTo(fileToAdd.lastModifiedDate) < 0) {
-            nameTree.replace(name, fileToAdd);
-            if(fileByDate == null){
+            // simply replace with the newer file
+            // IF dir is diff
+            //if(fileByName.dir.equals())
+            nameTree.set(name, fileToAdd);
+
+            // if there is no date like this, we need to add it anew
+            // and also remove the file with the older date
+            if(fileByDate == null) {
+                // adding anew
                 ArrayList<FileData> fileArrayToAdd = new ArrayList<FileData>();
                 fileArrayToAdd.add(fileToAdd);
+                dateTree.put(date, fileArrayToAdd);
 
-                ArrayList<FileData> stuff = dateTree.get(fileByName.lastModifiedDate);
-
-                for(int i = 0; i < stuff.size(); i++) {
-                    if(stuff.get(i).name.equals(name)) {
-                        stuff.remove(i);
+                // removing the file with the older date
+                ArrayList<FileData> olderFile = dateTree.get(fileByName.lastModifiedDate);
+                for(int i = 0; i < olderFile.size(); i++) {
+                    if(olderFile.get(i).name.equals(name)){
+                        // remove where it's new
+                        olderFile.remove(i);
+                        // replacing the older file
+                        dateTree.replace(fileByName.lastModifiedDate, olderFile);
+                        return;
                     }
                 }
-
-                dateTree.replace(fileByName.lastModifiedDate, stuff);
-
-                dateTree.put(date, fileArrayToAdd);
-                return;
             }
+
+            // if this date exists, we need to add the file to the already existing date array
+            // but still remove the older date
             fileByDate.add(fileToAdd);
             dateTree.replace(date, fileByDate);
-            return;
-        }
-        else {
-            System.out.format("%s equals %s\n", fileByName.toString(), fileToAdd.toString());
-            return;
-        }
 
+            // removing the file with the older date
+            ArrayList<FileData> olderFile = dateTree.get(fileByName.lastModifiedDate);
+            for(int i = 0; i < olderFile.size(); i++) {
+                if(olderFile.get(i).name.equals(name)){
+                    // remove where it's new
+                    olderFile.remove(i);
+                    // replacing the older file
+                    dateTree.replace(fileByName.lastModifiedDate, olderFile);
+                    return;
+                }
+            }
+
+
+        } else {
+            nameTree.put(name, fileToAdd);
+            //dateTree.put(date, fileToAdd);
+        }
 
     }
+
+
+
+
+
     // private void addDateMap(FileData fileToAdd, String oldDate){
     //     ArrayList<FileData> fileByDate = dateTree.get(oldDate);
     //     if(fileByDate == null){
@@ -239,11 +280,6 @@ public class FileSystem {
         int[] currentDateInt = parseDate(startDate);
 
         while(!generateDateString(currentDateInt).equals(endDate)){
-
-            if(currentDateInt.equals(parseDate("2025-01-01"))){
-                System.out.println("You still have an infinite loop 4head");
-                break;
-            }
             System.out.println(generateDateString(currentDateInt));
             currentDate = generateDateString(currentDateInt);
             ArrayList<FileData> allFilesOnDate = dateTree.get(currentDate);
@@ -362,6 +398,7 @@ public class FileSystem {
     public List<String> outputDateTree(){
         List<String> returnable = new ArrayList<String>();
         List<String> allDates = dateTree.keys();
+        //System.out.println(allDates);
         // System.out.format("allDates length is %s\n", allDates.size());
         // System.out.format("dateTree size is %s\n", dateTree.size());
         for(int i = 0; i < allDates.size(); i++){
@@ -371,6 +408,7 @@ public class FileSystem {
             if(allFiles != null) {
             for(int j = 0; j < allFiles.size(); j++){
                 // System.out.format("i is %s\n", i);
+                //System.out.println(key);
                 String entry = genEntry(key, allFiles.get(j));
                 returnable.add(entry);
             }
@@ -384,3 +422,5 @@ public class FileSystem {
 
 
 }
+
+
