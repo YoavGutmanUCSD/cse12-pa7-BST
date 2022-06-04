@@ -1,4 +1,3 @@
-
 import java.util.List;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -67,7 +66,7 @@ public class FileSystem {
             dateTree.replace(date, fileByDate);
             // System.out.println(dateTree.get(date));
         }
-        else if (!fileByName.lastModifiedDate.equals(fileToAdd.lastModifiedDate)) {
+        else if (fileByName.lastModifiedDate.compareTo(fileToAdd.lastModifiedDate) < 0) {
             nameTree.replace(name, fileToAdd);
             if(fileByDate == null){
                 ArrayList<FileData> fileArrayToAdd = new ArrayList<FileData>();
@@ -91,7 +90,8 @@ public class FileSystem {
             return;
         }
         else {
-            
+            System.out.format("%s equals %s\n", fileByName.toString(), fileToAdd.toString());
+            return;
         }
 
 
